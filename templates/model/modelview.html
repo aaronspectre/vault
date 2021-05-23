@@ -1,0 +1,44 @@
+{% extends 'main/index.html' %}
+
+{% block title %}{{model.model_name}}{% endblock %}
+
+{% load filters %}
+
+{% block content %}
+	<div class="container mt-3" onload="modelViewImg(document.querySelector('.modelview-img-holder'))">
+		<div class="row">
+			<div class="col-md-12">
+				<a href="{{referer}}"><span class="fas fa-arrow-left"></span> Back</a>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-6 p-5">
+				<div class="modelview-img-holder">
+					{% load static %}
+					<img src="{{model.model_image.url}}" alt="{{model.model_name}}" class="w-100 h-100 img-fluid">
+				</div>
+			</div>
+			<div class="col-md-6 p-5">
+				<h3>{{model.model_name}}</h3>
+				<p>{{model.model_desc}}</p><br>
+				<p>Author: <a href="{% url 'engine:stranger' model.model_author %}"><b>{{model.model_author}}</b></a></p>
+				<p>Tool used: <b>{{model.model_tool}}</b></p>
+				<p>Price: <b>{{model.model_price|viewFree}}</b></p><br>
+				<p>Tags:</p>
+				{% for tag in model.model_tags %}
+					<span class="badge badge-pill badge-dark">{{tag}}</span>
+				{% endfor %}
+				<br><br>
+				<small><span class="fas fa-eye"></span> {{model.model_views}}</small>
+				<small><span class="fas fa-heart"></span> {{model.model_favs}}</small>
+				<hr>
+				<a class="modelview-btn" href="{% url 'engine:addto' %}?model_id={{model.id}}&to=favs">Add to Favorites <span class="fas fa-heart"></span></a>
+				<a class="modelview-btn" href="{% url 'engine:addto' %}?model_id={{model.id}}&to=cart">Add to Cart <span class="fas fa-shopping-cart"></span></a>
+				{% if model|modelDownload %}
+					<a class="modelview-btn" href="{% url 'model:download' model.model_link %}">Download <span class="fas fa-download"></span></a>
+				{% endif %}
+
+			</div>
+		</div>
+	</div>
+{% endblock %}

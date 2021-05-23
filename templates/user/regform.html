@@ -1,0 +1,103 @@
+{% extends 'main/index.html' %}
+
+
+{% block title %}Sign Up{% endblock %}
+
+{% block catnav %}{% endblock %}
+
+{% block content %}
+	<div class="container mt-4">
+		<div class="row">
+			<div class="col-md-12 text-center">
+				<h3>Sign Up and get access to Thousands of Models!</h3>
+				{% if error %}
+					<small class="text-danger">{{error}}</small>
+				{% endif %}
+			</div>
+		</div>
+		<form action="{% url 'user:create_user' %}" method="post" class="mt-5" enctype="multipart/form-data">
+			{% csrf_token %}
+			<h5>Account Settings</h5>
+			<div class="row mt-4">
+				<div class="col-md-6">
+					<label for="#username">Username <font color="red">*</font></label>
+					<input type="text" placeholder="Eminem" name="username" id="username" class="form-control" required>
+					<br>
+					<label for="#email">Email <font color="red">*</font></label>
+					<input type="email" placeholder="example@mail.com" name="email" id="email" class="form-control" required>
+					<br>
+					<label for="#credit">Credit Card <font color="red">*</font></label>
+					<input id="credit" type="tel" name="credit" inputmode="numeric" pattern="[0-9\s]{13,19}" autocomplete="cc-number" maxlength="19" placeholder="xxxx xxxx xxxx xxxx" class="form-control">
+				</div>
+				<div class="col-md-6">
+					<label for="#pass">Password <font color="red">*</font></label>
+					<input type="password" placeholder="******" name="pass" id="pass" class="form-control" required>
+					<br>
+					<label for="#cpass">Confirm Password <font color="red">*</font></label>
+					<input type="password" placeholder="******" name="cpass" id="cpass" class="form-control" required>
+				</div>
+			</div>
+			<hr class="mb-5">
+			<h5>Personal Info</h5>
+			<div class="row mt-4">
+				<div class="col-md-6">
+					<label for="#fname">First name</label>
+					<input type="text" placeholder="John" name="fname" id="fname" class="form-control">
+					<br>
+					<label for="#lname">Last name</label>
+					<input type="text" placeholder="King" name="lname" id="lname" class="form-control">
+					<br>
+					<label for="#phone">Telephone</label>
+					<input type="tel" placeholder="+x xxxxxx" name="phone" id="phone" class="form-control">
+				</div>
+				<div class="col-md-6">
+					<label for="#gender">Gender</label>
+					<select name="gender" id="gender" class="form-control">
+						<option value="None">None</option>
+						<option value="Male">Male</option>
+						<option value="Female">Female</option>
+					</select>
+					<br>
+					<label for="#bday">Birth Day</label>
+					<input type="date" name="bday" id="bday" class="form-control">
+					<br>
+					<label for="#location">Location</label>
+					<select class="form-control" name="location" id="location">
+						{% for name in names %}
+							<option value="{{name}}">{{name}}</option>
+						{% endfor %}
+					</select>
+				</div>
+			</div>
+			<hr class="mb-5">
+			<h5>Prefferences</h5>
+			<div class="row mt-4 mb-5">
+				<div class="col-md-6">
+					<label for="#bio">Biography</label>
+					<textarea name="bio" id="bio" rows="10" class="form-control" placeholder="Tell about yourself"></textarea>
+				</div>
+				<div class="col-md-6">
+					<label for="#tool">Favourite Tool</label>
+					<select name="tool" id="tool" class="form-control">
+						<option value="Blender">Blender</option>
+					</select>
+					<br>
+					<label for="#interest">You are interested in:</label>
+					<select name="interest" id="interest" class="form-control">
+						<option value="sell">Selling</option>
+						<option value="buy">Buying</option>
+						<option value="both">Both</option>
+					</select>
+					<br>
+					<label for="#website">Personal Website</label>
+					<input type="text" value="https://" name="website" id="website" class="form-control">
+					<br>
+					<input type="checkbox" name="terms" id="terms" required>
+					<label for="#terms">Accept Terms & Conditions <font color="red">*</font></label>
+					<br><br>
+					<button type="submit" class="form-control btn btn-dark" style="background: black;">Sign Up</button>
+				</div>
+			</div>
+		</form>
+	</div>
+{% endblock %}

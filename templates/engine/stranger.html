@@ -1,0 +1,113 @@
+{% extends 'main/index.html' %}
+
+{% block title %}Aviators - {{stranger.username}}'s profile{% endblock %}
+
+{% block catnav %}{% endblock %}
+
+{% load filters %}
+
+{% block content %}
+	<div class="container-fluid" onload="profileBarProcessor()">
+		<div class="row">
+			<div class="col-md-4 pl-5 pr-5">
+				<div class="profile-bar text-center">
+					<div class="bar-img-holder mb-4">
+						{% load static %}
+						<img src="/{{stranger.avatar}}" class="w-100 h-100">
+					</div>
+					<p>{{stranger.bio}}</p>
+				</div>
+			</div>
+			<div class="col-md-8 p-0">
+				<div class="bar-text-holder">
+					<h2>{{stranger.username}}</h2>
+					<p><small>Coins {{ stranger.coins|length }}</small></p>
+					<hr>
+					<div class="row">
+						<div class="col-md-6 mb-2" style="border-right: 1px solid #ced4da;">
+							<p>First Name: {{stranger.first_name}}</p>
+							<p>Last Name: {{stranger.last_name}}</p>
+							<p>Location: {{stranger.location}}</p>
+							<p>Email: {{stranger.email}}</p>
+						</div>
+						<div class="col-md-6 mb-2">
+							<p>Fav Tool: Blender</p>
+							<p>Gender: None</p>
+							<p>WebSite: <a href="{{stranger.website}}">Link</a></p>
+							<p>Phone: </p>
+						</div>
+					</div>
+					<br>
+					{% if not request.user.is_anonymous %}
+						{% if request.user.id not in stranger.coins %}
+							<a href="{% url 'engine:addto' %}?userid={{stranger.id}}&to=subs&back=stranger" class="btn-warning profile-button"><small>Give a Coin <span class="fas fa-coins"></span></small></a>
+						{% else %}
+							<a href="{% url 'engine:removefrom' %}?userid={{stranger.id}}&from=subs&back=stranger" class="profile-button"><small>Retake Coin <span class="fas fa-user-times"></span></small></a>
+						{% endif %}
+					{% endif %}
+					<a href="javascript:(void)" class="profile-button"><small>Contact <span class="fas fa-comment-dots"></span></small></a>
+					<div class="dropdown show" style="float: left; margin-right: 1vh;">
+						<a href="javascript:(void)" class="profile-button dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><small>Report <span class="fas fa-exclamation-circle"></span></small></a>
+						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+							<a class="dropdown-item" href="javascript:(void)" onclick="sendReport(this.innerText)">Violence</a>
+							<a class="dropdown-item" href="javascript:(void)" onclick="sendReport(this.innerText)">Spam</a>
+							<a class="dropdown-item" href="javascript:(void)" onclick="sendReport(this.innerText)">Insult</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<div class="row mt-3">
+			<div class="col-md-12 pr-5 pl-5">
+				<div class="profile-bar">
+					<h3 style="margin-top: 10vh;">User Models:</h3>
+					<hr>
+					<div class="user-models-wrapper">
+						<div class="row">
+							{% if modelset %}
+								{% for model in modelset %}
+									<div class="col-md-2 pr-2">
+										<div class="model-card">
+											<div class="model-image">
+												{% load static %}
+												<img src="{{model.model_image.url}}" class="img-fluid w-100 h-100">
+											</div>
+											<div class="model-desc p-2">
+												<p style="margin: 0;">{{model.model_name}}</p>
+												<small>by {{model.model_author}}</small><br>
+												<small style="float: left;"><b>{{model.model_price}}$</b></small>
+												<div style="float: right">
+													<a href="{% url 'engine:addto' %}?model_id={{model.id}}&to=favs"><span class="fas fa-heart"></span></a>
+													<a href="{% url 'engine:addto' %}?model_id={{model.id}}&to=cart"><span class="fas fa-shopping-cart"></span></a>
+												</div>
+											</div>
+										</div>
+									</div>
+								{% endfor %}
+							{% else %}
+								<div class="col-md-12">
+									<p>Seems User doesn't have models yet</p>
+								</div>
+							{% endif %}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		function sendReport(message) {
+			if (confirm(`Are you sure, that you want to report {{stranger}}, reason: ${message}`)){
+				fetch("{% url 'engine:report' %}", {
+					method: 'POST',
+					body: JSON.stringify({'user': '{{stranger}}', 'reason': message, 'sender': '{{request.user}}'})
+				})
+				.then(response=>console.log(response.status))
+			}
+		}
+	</script>
+
+{% endblock %}

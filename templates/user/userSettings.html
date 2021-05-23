@@ -1,0 +1,210 @@
+{% extends 'main/index.html' %}
+
+{% block title %}{{user}} - Settings{% endblock %}
+
+{% load filters %}
+
+{% block content %}
+	<div class="container mt-4">
+		<div class="row">
+			<div class="col-md-12">
+				<h1 class="soft-font">Settings</h1>
+			</div>
+		</div>
+		<div class="row mt-4">
+			<div class="col-md-4">
+				<div class="settings-sidebar">
+					<ul style="padding: 0; list-style: none;">
+						<li class="settings-sidebar-item"><a href="{% url 'user:user_settings' 'General' %}">General</a></li>
+						<li class="settings-sidebar-item"><a href="{% url 'user:user_settings' 'Payment Accounts' %}">Payment Accounts</a></li>
+						<li class="settings-sidebar-item"><a href="{% url 'user:user_settings' 'Privacy' %}">Privacy</a></li>
+						<li class="settings-sidebar-item"><a href="{% url 'user:user_settings' 'Security' %}">Security</a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="col-md-8">
+				<div class="settings-contentbar">
+					<h4>{{type}}</h4>
+					{% if error %}
+						<label class="text-danger">{{error}}</label>
+					{% endif %}
+					{% if type == 'Security' %}
+						<form action="{% url 'user:changeSecurity' %}" method="post" class="mt-4">
+							{% csrf_token %}
+							<div class="form-team">
+								<label for="#opass">Old Password</label>
+								<input type="password" name="opass" id="opass" placeholder="******" class="form-control" required>
+							</div>
+							<div class="form-team">
+								<label for="#pass">New Password</label>
+								<input type="password" name="pass" id="pass" placeholder="******" class="form-control" required>
+							</div>
+							<div class="form-team">
+								<label for="#cpass">Confirm new Password</label>
+								<input type="password" name="cpass" id="cpass" placeholder="******" class="form-control" required>
+							</div>
+							<div class="form-team">
+								<label for="#email">Email</label>
+								<input type="email" name="email" id="email" value="{{user.email}}" class="form-control">
+							</div>
+							<div class="form-team">
+								<button type="submit">Save</button>
+							</div>
+						</form>
+					{% elif type == 'General' %}
+						<form action="{% url 'user:changeSettings' %}" method="post" class="mt-4" enctype="multipart/form-data">
+							{% csrf_token %}
+							<div style="height: 25vh;">
+								<div class="settings-avatar">
+									{% load static %}
+									<img src="/{{request.user.author.avatar}}" class="w-100 h-100">
+									<a href="javascript:(void)" onclick="uploadFile()" id="fileUploadButton">Change</a>
+									<input type="file" name="avatar" value="{{user.author.avatar.file}}" style="display: none;" id="fileUpload" onchange="uploaded(this)">
+								</div>
+							</div>
+							<div class="form-team">
+								<label for="#fname">First Name</label>
+								<input type="text" name="fname" id="fname" value="{{user.first_name}}" class="form-control">
+							</div>
+							<div class="form-team">
+								<label for="#sname">Last Name</label>
+								<input type="text" name="sname" id="sname" value="{{user.last_name}}" class="form-control">
+							</div>
+							<div class="form-team">
+								<label for="#card">Credit Card</label>
+								<input id="card" type="tel" name="card" inputmode="numeric" pattern="[0-9\s]{13,19}" autocomplete="cc-number" maxlength="19" placeholder="xxxx xxxx xxxx xxxx" class="form-control" value="{{user.author.credit}}">
+							</div>
+							<div class="form-team">
+								<label for="#location">Location</label>
+								<input type="text" name="location" id="location" value="{{user.author.location}}" class="form-control">
+							</div>
+							<div class="form-team">
+								<label for="#phone">Telephone</label>
+								<input type="text" name="phone" inputmode="numeric" pattern="\(?\+[0-9]{1,3}\)? ?-?[0-9]{1,3} ?-?[0-9]{3,5} ?-?[0-9]{4}( ?-?[0-9]{3})? ?(\w{1,10}\s?\d{1,6})?" id="phone" value="{{user.author.phone}}" class="form-control">
+							</div>
+							<div class="form-team">
+								<label for="#gender">Gender</label>
+								<select name="gender" id="gender" class="form-control">
+									<option value="{{user.author.gender}}">{{user.author.gender}}</option>
+									<option value="None">None</option>
+									<option value="Male">Male</option>
+									<option value="Female">Female</option>
+								</select>
+							</div>
+							<div class="form-team">
+								<label for="#tool">Favourite Tool</label>
+								<input type="text" name="tool" id="tool" value="{{user.author.favtool}}" class="form-control">
+							</div>
+							<div class="form-team">
+								<label for="#website">WebSite</label>
+								<input type="text" name="website" id="website" value="{{user.author.website}}" class="form-control">
+							</div>
+							<div class="form-team" style="height: 25vh;">
+								<label for="#bio">Bio</label>
+								<textarea type="text" name="bio" id="bio" class="form-control" rows="5">{{user.author.bio}}</textarea>
+							</div>
+							<div class="form-team">
+								<button type="submit">Save</button>
+							</div>
+						</form>
+						<script type="text/javascript">
+							let field = document.getElementById('fileUpload')
+							function uploadFile(){
+								field.click()
+							}
+							function uploaded(item){
+								console.log(item)
+								document.getElementById('fileUploadButton').innerText = 'Loaded'
+							}
+						</script>
+
+					{% elif type == 'Payment Accounts' %}
+						{% if request.user.author.stripe_account != -1 %}
+							<form action="" method="post" class="mt-5 mb-5">
+								<h5>Stripe <a href="{% url 'payment:stripeaccount' %}"><small><span class="fas fa-edit"></span></small></a></h5>
+								{% csrf_token %}
+								<div class="form-row mt-3">
+									<div class="col-md-6">
+										<label>Country: </label>
+									</div>
+									<div class="col-md-6">
+										<label>{{stripeAccount.country}}</label>
+									</div>
+								</div>
+								<div class="form-row mt-3">
+									<div class="col-md-6">
+										<label>Email: </label>
+									</div>
+									<div class="col-md-6">
+										<label>{{stripeAccount.email}}</label>
+									</div>
+								</div>
+								<div class="form-row mt-3">
+									<div class="col-md-6">
+										<label>Bank Name: </label>
+									</div>
+									<div class="col-md-6">
+										<label>{{stripeAccount.external_account.bank_name}}</label>
+									</div>
+								</div>
+								<div class="form-row mt-3">
+									<div class="col-md-6">
+										<label>Routing Number: </label>
+									</div>
+									<div class="col-md-6">
+										<label>{{stripeAccount.external_account.routing_number}}</label>
+									</div>
+								</div>
+								<div class="form-row mt-3">
+									<div class="col-md-6">
+										<label>Status: </label>
+									</div>
+									<div class="col-md-6 text-success">
+										<label>{{stripeAccount.transfers}}</label>
+									</div>
+								</div>
+							</form>
+						{% else %}
+							<div style="margin-top: 3vh; margin-bottom: 5vh;">
+								<h5>Stripe <span class="fab fa-stripe"></span></h5>
+								<p>You don`t have Strie account.</p>
+								<label><b>Stripe account allows you:</b></label>
+								<ul>
+									<li>Transfer money between Bank Accounts</li>
+									<li>Transfer money to credit cards</li>
+									<li>Secure and Private money transfer</li>
+								</ul>
+								<a href="{% url 'payment:stripeaccount' %}" class="settings-account-button">Create Stripe Account <span class="fab fa-cc-stripe"></span></a>
+							</div>
+						{% endif %}
+
+						<hr>
+
+						{% if request.user.author.paypal_account != -1 %}
+							<form action="" method="post" class="mt-4">
+								<h5>PayPal</h5>
+								{% csrf_token %}
+								<div class="form-team">
+									<button type="submit">Save</button>
+								</div>
+							</form>
+						{% else %}
+							<div style="margin-top: 5vh;">
+								<h5>PayPal <span class="fab fa-paypal"></span></h5>
+								<p>You don`t have PayPal account.</p>
+								<label><b>PayPal account allows you:</b></label>
+								<ul>
+									<li>Transfer money between PayPal accounts.</li>
+									<li>Secure and Private money transfer</li>
+									<li>Reliable</li>
+								</ul>
+								<a href="" class="settings-account-button">Create PayPal Account <span class="fab fa-paypal"></span></a>
+							</div>
+						{% endif %}
+
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

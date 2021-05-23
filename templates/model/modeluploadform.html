@@ -1,0 +1,108 @@
+{% extends 'main/index.html' %}
+
+{% block catnav %}{% endblock %}
+
+{% block content %}
+	<div class="container-fluid mt-4">
+		<div class="col-md-12">
+			{% if error %}
+				<div class="row">
+					<div class="col-md-12 pl-5 pb-0">
+						<h5 class="text-danger">{{error}}</h5>
+					</div>
+				</div>
+			{% endif %}
+			<form action="{% url 'model:upload' %}" method="post" enctype="multipart/form-data" class="model-upload-form">
+				{% csrf_token %}
+				{{formset.management_form}}
+				<div class="row">
+					<div class="col-md-6 p-5">
+						<div class="form-group">
+							<label for="#id_model_name">Model Name</label>
+							<input type="text" placeholder="Give Model Name" name="model_name" maxlength="40" class="form-control" id="id_model_name" required>
+						</div>
+						<div class="form-group">
+							<label for="#id_model_desc">Model Descrption</label>
+							<textarea placeholder="Give Model Descrption" name="model_description" maxlength="255" id="id_model_desc" class="form-control" rows="10" required></textarea>
+						</div>
+						<div class="form-group">
+							<label for="#id_model_category">Category</label>
+							<select class="form-control" name="model_category" id="id_model_category" required>
+								{% for cat in categories %}
+									<option value="{{ cat.name }}">{{ cat.name }}</option>
+								{% endfor %}
+							</select>
+						</div>
+						<div class="form-group">
+							<label for="#id_model_tool">Used Tool</label>
+							<input type="text" placeholder="Blender" name="model_tool" class="form-control" id="id_model_tool">
+						</div>
+					</div>
+					<div class="col-md-6 p-5">
+						<div class="form-group">
+							<label for="#id_model_tags">Tags <small class="text-secondary">write dividing by ',' without '#'</small></label>
+							<input type="text" placeholder="Cars, Houses, Toys, Funny" name="model_tags" class="form-control" id="id_model_tags">
+						</div>
+						<div class="form-group">
+							{% if allowPrice %}
+							<label for="#id_model_price">Price <small class="text-secondary">10% Commision</small></label><br>
+							<div class="input-group">
+								<div class="input-group-prepend mb-3">
+									<div class="input-group-text">$</div>
+								</div>
+								<input type="number" step="any" name="model_author_price" class="form-control" class="mb-3" oninput="commision(this.value)" value="0" id="id_model_price" required><br>
+							</div>
+							<div class="input-group">
+								<div class="input-group-prepend mb-3">
+									<div class="input-group-text">Final price ></div>
+								</div>
+								<input type="number" step="any" oninput="finalPrice(this.value)" class="form-control" name="model_price" value="0" id="id_model_actual_price" required>
+							</div>
+							{% else %}
+							<label for="#id_model_price">Price <small class="text-secondary">Free</small></label><br>
+							<div class="input-group" onclick="alert('You don`t have any payment account. To create account, go to Profile -> Settings -> Payment Accounts')">
+								<div class="input-group-prepend mb-3">
+									<div class="input-group-text"><span><span class="fas fa-question-circle"></span></span></div>
+								</div>
+								<input type="number" class="form-control" value="0" class="mb-3" id="id_model_price" disabled><br>
+								<input type="hidden" name="model_author_price" value="0">
+							</div>
+							<div class="input-group">
+								<input type="hidden" name="model_price" value="0">
+							</div>
+							{% endif %}
+						</div>
+						<div class="form-group">
+							<label for="#id_model_file">Model File</label><br>
+							<input accept=".gltf, .jpg, .png" type="file" class="mb-3" name="model_file" id="id_model_file" required>
+						</div>
+						<div class="form-group">
+							<label for="#id_model_file">Model Preview Image</label><br>
+							<input accept="image/*" type="file" name="model_image" id="id_model_image" required>
+						</div>
+						<div class="form-group">
+							<input type="checkbox" id="agree" required>
+							<label for="#agree">Agree with User Terms & Conditions</label>
+						</div>
+						<div class="form-group">
+							<button type="submit">Upload</button>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		let f1 = document.getElementById('id_model_price')
+		let f2 = document.getElementById('id_model_actual_price')
+		function commision(val){
+			comm= (Number(val)/100)*10
+			f2.value = Number(val)+comm
+		}
+		function finalPrice(val){
+			comm= (Number(val)/100)*10
+			f1.value = Number(val)-comm
+		}
+	</script>
+{% endblock %}

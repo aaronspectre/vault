@@ -1,0 +1,64 @@
+{% extends 'main/index.html' %}
+{% block title %}Aviators - Search{% endblock %}
+
+{% block catnav %}{% endblock %}
+
+{% load filters %}
+
+{% block content %}
+	<div id="sidebar">
+		<h5>Categories</h5>
+		<hr>
+		<ul class="side-menu">
+			{% for category in categories %}
+			<li class="side-item"><a href="{% url 'engine:searchengine' %}?query={{category.name}}&type=category">{{category.name}}</a></li>
+			{% endfor %}
+		</ul>
+	</div>
+
+	<div id="content">
+		<div class="container-fluid p-0">
+			<div class="row mb-4">
+				<div class="col-md-6">
+					<ul class="side-menu">
+						<li class="content-filters"><h5><a href="{% url 'engine:searchengine' %}?query=all&type=filter">All</a></h5></li>
+						<li class="content-filters"><h5><a href="{% url 'engine:searchengine' %}?query=new&type=filter">New</a></h5></li>
+						<li class="content-filters"><h5><a href="{% url 'engine:searchengine' %}?query=popular&type=filter">Popular</a></h5></li>
+					</ul>
+				</div>
+				<div class="col-md-6">
+					<form action="{% url 'engine:searchengine' %}" method="get">
+						{% csrf_token %}
+						<div class="form-group">
+							<input type="text" placeholder="Search" class="form-control" style="width: 90%; float: left;" name="query">
+							<input type="hidden" name="type" value="byname">
+							<button class="btn" style="width: 10%;"><span class="fas fa-search"></span></button>
+						</div>
+					</form>
+				</div>
+			</div>
+			<small>Results for '{{query}}{{name}}': {{ modelset|length }} found</small>
+			<div class="row mt-4">
+				{% for model in modelset %}
+					<div class="col-md-3 pr-2">
+						<div class="model-card">
+							<div class="model-image">
+								{% load static %}
+								<img src="{{model.model_image.url}}" class="img-fluid w-100 h-100">
+							</div>
+							<div class="model-desc p-2">
+								<p style="margin: 0;"><a href="{% url 'model:modelview' model.id %}" class="model-card-name">{{model.model_name}}</a></p>
+								<small>by <a href="{% url 'engine:stranger' model.model_author %}">{{model.model_author}}</a></small><br><br>
+								<small style="float: left;"><b>{{model.model_price|viewFree}}</b></small>
+								<div style="float: right">
+									<a href="{% url 'engine:addto' %}?model_id={{model.id}}&query={{model.model_category}}&to=favs"><span class="fas fa-heart"></span></a>
+									<a href="{% url 'engine:addto' %}?model_id={{model.id}}&query={{model.model_category}}&to=cart"><span class="fas fa-shopping-cart"></span></a>
+								</div>
+							</div>
+						</div>
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+{% endblock %}

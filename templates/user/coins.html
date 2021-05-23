@@ -1,0 +1,65 @@
+{% extends 'main/index.html' %}
+
+{% block title %}Aviators - {{request.user}}'s coins{% endblock %}
+
+{% block content %}
+	<div class="container mt-4 w-50">
+		<div class="row">
+			<div class="col-md-12">
+				<h3 class="soft-font" style="float: left;">Coins:</h3>
+				<form action="{% url 'engine:friend' %}" method="post" class="friend-search-form">
+					{% csrf_token %}
+					<input type="text" placeholder="john219" name="query">
+					<button type="submit"><span class="fas fa-search"></span></button>
+				</form>
+			</div>
+		</div>
+		<hr>
+		<div class="row">
+			<div class="col-md-12">
+				<ul class="coins-list">
+					{% if userset %}
+						{% for stranger in userset %}
+						<li>
+							<a href="{% url 'engine:stranger' stranger %}" class="coins-user">{{stranger}} <small style="float: right;">{{stranger.coins|length}} coins</small></a>
+							{% if request.user.id not in stranger.coins %}
+								<a href="{% url 'engine:addto' %}?userid={{stranger.id}}&to=subs&back=coins" class="coins-give"><small>Give a Coin <span class="fas fa-coins"></span></small></a>
+							{% else %}
+								<a href="{% url 'engine:removefrom' %}?userid={{stranger.id}}&from=subs&back=coins" class="coins-take"><small>Retake Coin <span class="fas fa-user-times"></span></small></a>
+							{% endif %}
+						</li>
+						{% endfor %}
+					{% else %}
+						<li>No friends yet</li>
+					{% endif %}
+				</ul>
+			</div>
+		</div>
+		<div class="row mt-5">
+			<div class="col-md-12">
+				<h3 class="soft-font">Suggestions:</h3>
+			</div>
+		</div>
+		<hr>
+		<div class="row">
+			<div class="col-md-12">
+				<ul class="coins-list">
+					{% if topusers %}
+						{% for stranger in topusers %}
+						<li>
+							<a href="{% url 'engine:stranger' stranger %}" class="coins-user">{{stranger}} <small style="float: right;">{{stranger.coins|length}} coins</small></a>
+							{% if request.user.id not in stranger.coins %}
+								<a href="{% url 'engine:addto' %}?userid={{stranger.id}}&to=subs&back=coins" class="coins-give"><small>Give a Coin <span class="fas fa-coins"></span></small></a>
+							{% else %}
+								<a href="{% url 'engine:removefrom' %}?userid={{stranger.id}}&from=subs&back=coins" class="coins-take"><small>Retake Coin <span class="fas fa-user-times"></span></small></a>
+							{% endif %}
+						</li>
+						{% endfor %}
+					{% else %}
+						<li>No friends yet</li>
+					{% endif %}
+				</ul>
+			</div>
+		</div>
+	</div>
+{% endblock %}

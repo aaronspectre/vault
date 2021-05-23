@@ -1,0 +1,354 @@
+.chat-box{
+	margin-top: 3vh;
+	width: 100%;
+	border-radius: 1vh;
+	overflow: hidden;
+	border: 1px solid #ced4da;
+}
+.chat-screen{
+	height: 40vh;
+	width: 95%;
+	box-sizing: content-box;
+	padding: 2vh;
+	overflow-y: scroll;
+	color: white;
+	background: #090a0a;
+}
+.chat-message{
+	width: 100%;
+	border-bottom: 1px solid #495057;
+}
+.chat-message span, small{
+	opacity: .9;
+}
+.chat-input{
+	height: 5vh;
+	width: 100%;
+}
+.chat-input-holder{
+	height: 100%;
+	width: 100%;
+	background: black;
+}
+.chat-input input{
+	height: 100%;
+	width: 85%;
+	float: left;
+	padding-left: 2vh;
+	color: white;
+	border-radius: none;
+	border: none;
+	background: transparent;
+}
+.chat-input input:focus{
+	outline: none;
+}
+.chat-input button{
+	width: 15%;
+	height: 100%;
+	float: right;
+	border: none;
+	color: white;
+	background: transparent;
+	opacity: .8;
+}
+
+.dash-message{
+	margin-top: 3vh;
+	width: 100%;
+	padding: 2vh;
+	border: 1px solid #ced4da;
+	border-radius: 10px;
+}
+
+.dash-message button{
+	float: right;
+	border: none;
+	background: transparent;
+}
+.dash-message button:hover{
+	color: grey;
+}
+
+.dash-section{
+	margin-top: 3vh;
+	padding: 2vh;
+	width: 100%;
+}
+
+.login-section{
+	margin: auto;
+	margin-top: 2vh;
+	width: 30%;
+	padding: 3vh;
+	border: 1px solid #ced4da;
+	border-radius: 1vh;
+	background: #f7f7f7;
+}
+.login-error{
+	margin: auto;
+	margin-top: 2vh;
+	width: 30%;
+	padding: 2vh 1vh 1vh 1vh;
+	color: #e20218;
+}
+.login-footer{
+	width: 30%;
+	margin: auto;
+	margin-top: 2vh;
+}
+.login-footer li{
+	display: inline;
+	margin-right: 1vh;
+}
+
+.coins-list{
+	width: 100%;
+	list-style: none;
+	padding: 0;
+}
+.coins-list li{
+	width: 100%;
+	margin-top: 1vh;
+}
+.coins-list .coins-user{
+	width: 75%;
+	display: inline-block;
+	padding: 1vh;
+	padding-left: 2vh;
+	border-radius: 5px;
+}
+.coins-list .coins-user:hover{
+	background: whitesmoke;
+	text-decoration: none;
+	color: #4d4d4d;
+}
+
+.coins-give, .coins-take{
+	width: 20%;
+	float: right;
+	display: inline-block;
+	padding: 1vh;
+	text-align: center;
+	border-radius: 5px;
+}
+.coins-give{
+	background: #ffcc00;
+}
+.coins-take{
+	background: #4d4d4d;
+	color: white;
+}
+.coins-give:hover{
+	text-decoration: none;
+	opacity: .8;
+}
+.coins-take:hover{
+	text-decoration: none;
+	color: white;
+	opacity: .8;
+}
+
+.model-upload-form button{
+	margin-top: 1vh;
+	padding: 1vh 3vh;
+	border: 1px solid black;
+	border-radius: 5px;
+	color: white;
+	background: black;
+	float: right;
+}
+.model-upload-form button:hover{
+	opacity: .8;
+}
+
+#sidebar{
+	width: 23%;
+	padding: 5vh;
+	transform: translateX(2%);
+	border-radius: 2vh;
+	position: absolute;
+	font-size: 2vh;
+}
+#sidebar:hover{
+	box-shadow: 0 0 10px;
+}
+.side-menu{
+	list-style: none;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+}
+.side-item{
+	width: 100%;
+	margin-bottom: 5px;
+}
+.side-item a{
+	color: black;
+	opacity: .7;
+}
+.side-item a:hover{
+	color: black;
+	opacity: 1;
+}
+
+
+#content{
+	width: 75%;
+	height: 100vh;
+	transform: translateX(32%);
+	padding: 5vh;
+}
+
+.content-filters{
+	display: inline-block;
+	margin-right: 2vh;
+}
+.content-filters a{
+	opacity: .7;
+}
+.content-filters:hover a{
+	text-decoration: none;
+	color: black;
+	opacity: 1;
+}
+.active-tab a{
+	opacity: 1;
+}
+
+.model-card{
+	width: 100%;
+	font-size: 2vh;
+	border-radius: 1vh;
+	overflow: hidden;
+	box-shadow: 0 0 5px;
+	background: white;
+}
+.model-image{
+	width: 100%;
+}
+.model-card:hover{
+	transform: translateY(-10px);
+}
+
+.modelview-img-holder{
+	width: 100%;
+	background: grey;
+}
+.modelview-btn{
+	margin-top: 2vh;
+	padding: 1.5vh 2vh;
+	border-radius: 5px;
+}
+.modelview-btn:hover{
+	background: black;
+	color: white;
+	text-decoration: none;
+}
+
+.model-edit-section{
+	margin-top: 3vh;
+	width: 100%;
+}
+.model-edit-section button{
+	border: none;
+	background: black;
+	color: white;
+	padding: 1vh 2vh;
+	border-radius: 5px;
+}
+.model-edit-section button:hover{
+	opacity: .9;
+}
+
+.cart-view-rightside{
+	margin-top: 2vh;
+	border-radius: 3vh;
+	background: black;
+	padding: 3vh 0;
+	color: white;
+	width: 70%;
+	overflow: hidden;
+}
+.cart-view-rightside small{
+	float: right;
+}
+
+.checkout-cart-item{
+	display: block;
+	width: 100%;
+	padding: .5vh 3vh;
+	font-size: 2vh;
+	color: white;
+	/*border-bottom: 1px solid white;*/
+}
+.checkout-cart-item:hover{
+	text-decoration: none;
+	color: white;
+}
+
+#checkout-button{
+	margin-top: 3vh;
+	width: 70%;
+	float: left;
+	background: white;
+	columns: black;
+	border-radius: 3vh;
+	border: 1px solid white;
+	padding: 1vh 0;
+}
+#checkout-button:hover{
+	background: black;
+	color: white;
+	border: 1px solid black;
+}
+
+.vip-card{
+	width: 100%;
+	height: 60vh;
+	color: white;
+	border-radius: 1vh;
+	overflow: hidden;
+	background: linear-gradient(to right bottom, #161616, #333333);
+}
+.vip-card-best{
+	height: 65vh;
+}
+
+.vip-card-body{
+	width: 100%;
+	height: 50%;
+	padding: 1vh;
+}
+.vip-card-body h1{
+	font-size: 9vh;
+	margin-top: 0;
+	padding-top: 0;
+}
+.vip-card-body h2{
+	font-size: 5vh;
+	margin-bottom: 0;
+	padding-bottom: 0;
+}
+.vip-card-header, .vip-card-footer{
+	width: 100%;
+	height: 25%;
+	padding: 2vh;
+	text-align: center;
+}
+.vip-card-header{
+	padding-top: 3vh;
+}
+.vip-card-footer button{
+	margin-top: 8%;
+	width: 80%;
+	padding: 1vh 2vh;
+	background: white;
+	color: black;
+	border: none;
+	border-radius: 3vh;
+}
+.vip-card-footer button:hover{
+	background: black;
+	color: white;
+}

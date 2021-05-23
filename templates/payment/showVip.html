@@ -1,0 +1,117 @@
+{% extends 'main/index.html' %}
+
+{% block title %}Aviators - Vip Tariffs{% endblock %}
+
+{% block content %}
+	<div class="container mt-5">
+		<div class="row">
+			<div class="col-md-12">
+				<h1 align="center">Get VIP and enjoy with full functionality!</h1>
+			</div>
+		</div>
+		<div class="row" style="margin-top: 7vh;">
+			<div class="col-md-4">
+				<div class="vip-card vip-card-left">
+					<div class="vip-card-header">
+						<h4>Month</h4>
+						<label>$1.99</label>
+					</div>
+					<div class="vip-card-body text-center">
+						<h2 class=" text-warning"><span class="fas fa-crown"></span></h2>
+						<h1>VIP</h1>
+						<small>Duration: 1 Month</small>
+					</div>
+					<div class="vip-card-footer">
+						<button  id="vip-button-left"><b>Buy</b></button>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="vip-card vip-card-best">
+					<div class="vip-card-header">
+						<h4>Half-Year</h4>
+						<label>$9.99</label>
+					</div>
+					<div class="vip-card-body text-center">
+						<h2 class=" text-warning"><span class="fas fa-crown"></span></h2>
+						<h1>VIP</h1>
+						<small>Duration: 6 Months</small>
+					</div>
+					<div class="vip-card-footer">
+						<button id="vip-button-middle"><b>Buy</b></button>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="vip-card vip-card-right">
+					<div class="vip-card-header">
+						<h4>Year</h4>
+						<label>$19.99</label>
+					</div>
+					<div class="vip-card-body text-center">
+						<h2 class=" text-warning"><span class="fas fa-crown"></span></h2>
+						<h1>VIP</h1>
+						<small>Duration: 1 Year</small>
+					</div>
+					<div class="vip-card-footer">
+						<button id="vip-button-right"><b>Buy</b></button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row" style="margin-top: 15vh;">
+			<div class="col-md-12">
+				<h4>Vip status allows you:</h4>
+				<ul>
+					<li>Option</li>
+					<li>Option</li>
+					<li>Option</li>
+				</ul>
+			</div>	
+		</div>
+	</div>
+
+
+	{% csrf_token %}
+
+	<script type="text/javascript">
+		const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+		// Create an instance of the Stripe object with your publishable API key
+		var stripe = Stripe("{{ public_key }}");
+		var checkoutButtonRight = document.getElementById("vip-button-right");
+		var checkoutButtonMiddle = document.getElementById("vip-button-middle");
+		var checkoutButtonLeft = document.getElementById("vip-button-left");
+
+		function vipPurchase(price, tariff) {
+			let data = {'price': price, 'tariff': tariff}
+			fetch("{% url 'payment:vip_purchase' %}", {
+			method: "POST",
+			headers: {
+				'X-CSRFToken': csrftoken
+			},
+			body: JSON.stringify(data),
+		})
+		.then(function (response) {
+			return response.json();
+		})
+		.then(function (session) {
+			return stripe.redirectToCheckout({ sessionId: session.id });
+		})
+		.then(function (result) {
+			// If redirectToCheckout fails due to a browser or network
+			// error, you should display the localized error message to your
+			// customer using error.message.
+			if (result.error) {
+					alert(result.error.message);
+				}
+		})
+		.catch(function (error) {
+			console.error("Error:", error);
+		});
+		}
+
+		checkoutButtonRight.addEventListener("click", ()=>{vipPurchase(1999, '1 Year')});
+		checkoutButtonMiddle.addEventListener("click", ()=>{vipPurchase(999, '6 Months')});
+		checkoutButtonLeft.addEventListener("click", ()=>{vipPurchase(199, '1 Month')});
+	</script>
+{% endblock %}

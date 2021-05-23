@@ -1,0 +1,179 @@
+{% extends 'main/index.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block catnav %}
+	<nav id="catnav">
+		<div>
+			<form action="{% url 'engine:searchengine' %}" method="get" style="width: 100%;">
+				{% csrf_token %}
+				<div class="search-group">
+					<input type="search" class="navsearch" name="query" placeholder="Search">
+					<input type="hidden" name="type" value="byname">
+					<button class="btn" type="submit"><span class="fas fa-search"></span></button>
+				</div>
+			</form>
+		</div>
+		<div class="category-nav">
+			<div class="catslider-controller" style="float: left;">
+				<a href="javascript:(void)" onclick="catslide('left')"><span class="fas fa-arrow-left"></span></a>
+			</div>
+			<div class="catslider-controller" style="float: right;">
+				<a href="javascript:(void)" onclick="catslide('right')"><span class="fas fa-arrow-right"></span></a>
+			</div>
+			<div class="catslider">
+				<div class="catslider-inner">
+					<ul class="catslider-menu">
+						{% for cat in categories %}
+							<li><a href="{% url 'engine:searchengine' %}?query={{cat.name}}&type=category"><span class="fas fa-{{cat.sign}}"></span><br>{{cat.name}}</a></li>
+						{% endfor %}
+					</ul>
+				</div>
+			</div>
+		</div>
+	</nav>
+{% endblock %}
+
+{% block content %}
+	<div class="container-fluid mt-4">
+		<div class="row">
+			<div class="col-md-3">
+				<h3 style="opacity: .8;">Chat</h3>
+				<!-- Chat -->
+				<div class="chat-box">
+					<div class="chat-screen">
+						{% if messages %}
+							{% for message in messages %}
+								<div class="chat-message">
+									<span>{{message.author}}</span><br>
+									<small>{{message.message}}</small>
+								</div>
+							{% endfor %}
+						{% endif %}
+					</div>
+					<div class="chat-input">
+						<div class="chat-input-holder">
+							<input type="text" maxlength="20" placeholder="Message" id="chatMessageField" name="message">
+							<button id="chat-button" onclick="chat()"><span class="fas fa-comment"></span></button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-9 pl-4">
+				<h3 class="soft-font">Dashboard</h3>
+				{% if dash_message %}
+					{% for message in dash_message %}
+						<div class="dash-message">
+							<h5 class="soft-font">{{message.title}}<button><span onclick="deleteNotification('{{message.title}}', this)" class="fas fa-times"></span></button></h5>
+							<p style="opacity: .8;">{{message.message}}</p>
+						</div>
+					{% endfor %}
+				{% endif %}
+				<div class="dash-section">
+					<h5 class="soft-font">Recently added models</h5>
+					<div class="row mt-3">
+						{% if modelset %}
+							{% for model in modelset %}
+								<div class="col-md-3 mt-3">
+									<div class="model-card">
+										<div class="model-image">
+											{% load static %}
+											<img src="{{model.model_image.url}}" class="img-fluid w-100 h-100">
+										</div>
+										<div class="model-desc p-3">
+											<p style="margin: 0;">{{model.model_name}}</p>
+											<small>{{model.model_author}}</small><br>
+											<small style="float: left;"><b>{{model.model_price}}$</b></small>
+											<div style="float: right">
+												<a href="{% url 'model:delete' model.id %}"><span class="fas fa-trash-alt"></span></a>
+												<a href="{% url 'model:modeledit' model.id %}"><span class="fas fa-edit"></span></a>
+											</div>
+										</div>
+									</div>
+								</div>
+							{% endfor %}
+						{% else %}
+							<div class="col-md-12">
+								<p>You don't have any uploaded models yet, <a href="{% url 'model:modelupload' %}">Upload model</a></p>
+							</div>
+						{% endif %}
+					</div>
+				</div>
+				<div class="dash-section">
+					<h5 class="soft-font">Status</h5>
+					<label class="soft-font mr-4"><span class="fas fa-cube"></span> {{modelset|length}} Models uploaded</label>
+					<label class="soft-font"><span class="fas fa-coins"></span> {{user.author.coins|length}} Coins</label><br>
+					<label class="soft-font mr-4"><span class="fas fa-money-check"></span> {{user.author.payments|length}} Payments</label>
+					{% if request.user.author.vipstatus %}
+						<label class="soft-font"><span class="fas fa-crown text-warning"></span> VIP status owned</label><br>
+					{% else %}
+						<label class="soft-font"><span class="fas fa-crown"></span> No VIP status</label><br>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		function deleteNotification(item, node){
+			node.parentNode.parentNode.parentNode.remove()
+			fetch("{% url 'main:deleteNote' %}", {
+				method: 'POST',
+				body: JSON.stringify(item)
+			})
+		}
+
+		const chatSocket = new WebSocket('ws://'+window.location.host+'/ws/chat'+'/')
+
+		chatSocket.onmessage = (event)=>{
+			let data = JSON.parse(event.data)
+			let screen = document.querySelector('.chat-screen')
+
+			let chat_message = document.createElement('div')
+			chat_message.classList.add('chat-message')
+
+			//Chat message author
+			let chat_message_span = document.createElement('span')
+			let chat_message_span_text = document.createTextNode(data.author)
+			chat_message_span.appendChild(chat_message_span_text)
+
+			//Chat message br
+			let chat_message_br = document.createElement('br')
+
+			//Chat message
+			let chat_message_small = document.createElement('small')
+			let chat_message_small_text = document.createTextNode(data.message)
+			chat_message_small.appendChild(chat_message_small_text)
+
+			//Add node to DOM
+			chat_message.appendChild(chat_message_span)
+			chat_message.appendChild(chat_message_br)
+			chat_message.appendChild(chat_message_small)
+
+			screen.insertBefore(chat_message, screen.childNodes[0])
+		}
+
+		chatSocket.onclose = error => {
+			console.log(error, 'Closed!')
+		}
+
+
+
+		// Chat Engine
+		function chat(){
+			let message = document.getElementById('chatMessageField').value
+			document.getElementById('chatMessageField').value = ''
+			chatSocket.send(JSON.stringify({'message': message, 'author': '{{request.user.username}}'}))
+		}
+
+		//Key binding
+		let field = document.getElementById('chatMessageField')
+		field.addEventListener('keyup', event => {
+			if (event.keyCode == 13){
+				document.getElementById('chat-button').click()
+			}
+		})
+
+	</script>
+
+{% endblock %}
