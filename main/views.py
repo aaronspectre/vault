@@ -22,7 +22,12 @@ def dashboard(request):
 		dash_message = request.user.author.notifications
 	modelset = Mod.objects.filter(model_author = request.user).order_by('-model_date')
 	categories = Category.objects.all()
-	return render(request, 'main/dashboard.html', {'categories': categories, 'modelset': modelset, 'dash_message': dash_message, 'messages': chat})
+	return render(request, 'main/dashboard.html', {
+		'categories': categories,
+		'modelset': modelset,
+		'dash_message': dash_message,
+		'messages': chat,
+		})
 
 
 @csrf_exempt

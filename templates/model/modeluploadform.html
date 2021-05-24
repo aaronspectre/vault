@@ -1,5 +1,7 @@
 {% extends 'main/index.html' %}
 
+{% block title %}Aviators - Upload Model{% endblock %}
+
 {% block catnav %}{% endblock %}
 
 {% block content %}
@@ -74,11 +76,11 @@
 						</div>
 						<div class="form-group">
 							<label for="#id_model_file">Model File</label><br>
-							<input accept=".gltf, .jpg, .png" type="file" class="mb-3" name="model_file" id="id_model_file" required>
+							<input accept=".gltf, .jpg, .png" type="file" class="mb-3" name="model_file" id="id_model_file" multiple required>
 						</div>
 						<div class="form-group">
 							<label for="#id_model_file">Model Preview Image</label><br>
-							<input accept="image/*" type="file" name="model_image" id="id_model_image" required>
+							<input accept="image/*" type="file" name="model_image" id="id_model_image" multiple required>
 						</div>
 						<div class="form-group">
 							<input type="checkbox" id="agree" required>

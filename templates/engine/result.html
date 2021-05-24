@@ -43,8 +43,8 @@
 					<div class="col-md-3 pr-2">
 						<div class="model-card">
 							<div class="model-image">
-								{% load static %}
-								<img src="{{model.model_image.url}}" class="img-fluid w-100 h-100">
+								{% load model_filters %}
+								<img src="{{model|get_model_image}}" class="img-fluid w-100 h-100">
 							</div>
 							<div class="model-desc p-2">
 								<p style="margin: 0;"><a href="{% url 'model:modelview' model.id %}" class="model-card-name">{{model.model_name}}</a></p>
