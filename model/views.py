@@ -1,15 +1,18 @@
 import mimetypes
 import uuid
+import os
+
+from zipfile import ZipFile
 
 from django.shortcuts import render, get_object_or_404
 
 from django.contrib.auth import logout
-from model.models import Mod, Category
+from model.models import Mod, Category, ModelFile, ModelImage
 from user.models import Author
 from model.forms import ModForm
 from django.utils import timezone
 
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, FileResponse
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 
@@ -37,14 +40,14 @@ def upload(request):
 		form = ModForm(request.POST, request.FILES)
 		if form.is_valid():
 			category = get_object_or_404(Category, name = request.POST['model_category'])
+			files = request.FILES.getlist('model_file')
+			images = request.FILES.getlist('model_image')
 
 			mod = Mod()
 			mod.model_name = request.POST['model_name']
 			mod.model_desc = request.POST['model_description']
 			mod.model_price = request.POST['model_price']
 			mod.model_author_price = request.POST['model_author_price']
-			mod.model_file = request.FILES['model_file']
-			mod.model_image = request.FILES['model_image'];
 			mod.model_date = timezone.now()
 			mod.model_author = request.user
 			mod.model_category = category
@@ -52,6 +55,15 @@ def upload(request):
 			mod.model_tool = request.POST['model_tool']
 			mod.model_link = uuid.uuid4().hex
 			mod.save()
+
+			for file in files:
+				model_file = ModelFile(file = file, parent = mod)
+				model_file.save()
+
+			for img in images:
+				model_image = ModelImage(file = img, parent = mod)
+				model_image.save()
+
 
 			category.amount+=1
 			category.save()
@@ -93,18 +105,34 @@ def deleteModel(request, id):
 @login_required
 def downloadModel(request, link):
 	model = get_object_or_404(Mod, model_link = link)
-	
-	path = model.model_file.url
-	filename = f'{model.model_name}.{model.model_file.name[len(model.model_file.name)-3:]}'
-	mime_type, _ = mimetypes.guess_type(path)
-	response = HttpResponse(model.model_file, content_type=mime_type)
-	response['Content-Disposition'] = "attachment; filename=%s" % filename
-	return response
+	model_files = ModelFile.objects.filter(parent = model)
+
+	filename = f'{request.user.id}-{model.model_name}.zip'
+	path = f'static/{filename}.zip'
+
+	try:
+		with ZipFile(path, 'w') as zip_archive:
+			for file in model_files:
+				zip_archive.write(str(file.file))
+
+
+		response = HttpResponse(open(path, 'rb'), content_type='application/zip')
+		response['Content-Disposition'] = 'attachment; filename={0}'.format(filename)
+
+		os.remove(path)
+
+		return response
+
+	except Exception as e:
+		print(e)
+		return HttpResponseRedirect(reverse('user:profile'))
 
 
 
 def modelEdit(request, id):
 	model = get_object_or_404(Mod, id=id)
+	model_file = ModelFile.objects.filter(parent = model)
+	model_image = ModelImage.objects.filter(parent = model)
 
 	if model.model_author.username != request.user.username:
 		return securityCheck(request)
@@ -115,7 +143,7 @@ def modelEdit(request, id):
 	if request.user.author.stripe_account == -1:
 		allowPrice = False
 
-	return render(request, 'model/modelEdit.html', {'model': model, 'categories': categories, 'allowPrice': allowPrice})
+	return render(request, 'model/modelEdit.html', {'model': model, 'model_file': model_file, 'model_image': model_image, 'categories': categories, 'allowPrice': allowPrice})
 
 
 def modelEditHandle(request, id):
@@ -128,7 +156,6 @@ def modelEditHandle(request, id):
 		model.model_tool = request.POST['tool']
 		model.model_desc = request.POST['desc']
 		model.model_category = get_object_or_404(Category, name = request.POST['cat'])
-		model.model_date = timezone.now()
 		model.save()
 		return HttpResponseRedirect(reverse('main:dashboard'))
 	else:

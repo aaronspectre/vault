@@ -113,8 +113,10 @@
 								field.click()
 							}
 							function uploaded(item){
-								console.log(item)
-								document.getElementById('fileUploadButton').innerText = 'Loaded'
+								but = document.getElementById('fileUploadButton')
+								but.innerText = 'Loaded'
+								but.style.display = 'initial'
+								but.parentNode.childNodes[1].style.opacity = '.3'
 							}
 						</script>
 

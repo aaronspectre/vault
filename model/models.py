@@ -1,7 +1,6 @@
 from django.db import models
 
 from django.contrib.auth.models import User
-from django.forms import ModelForm
 
 
 
@@ -17,14 +16,13 @@ class Category(models.Model):
 
 
 
+
 class Mod(models.Model):
 	model_name = models.CharField(max_length = 30)
 	model_desc = models.TextField()
 	model_price = models.FloatField()
 	model_author_price = models.FloatField(default = 0)
 	model_date = models.DateTimeField()
-	model_image = models.ImageField(upload_to = 'static/storage/img/models')
-	model_file = models.FileField(upload_to='static/storage/models')
 	model_views = models.IntegerField(default = 0)
 	model_tags = models.JSONField()
 	model_tool = models.CharField(max_length = 50)
@@ -37,7 +35,17 @@ class Mod(models.Model):
 		return self.model_name;
 
 
-class ModForm(ModelForm):
-	class Meta:
-		model = Mod
-		fields = ['model_name', 'model_file', 'model_price', 'model_category', 'model_desc', 'model_image'];
+class ModelFile(models.Model):
+	parent = models.ForeignKey(Mod, on_delete = models.CASCADE)
+	file = models.FileField(upload_to='static/storage/models')
+
+	def __str__(self):
+		return self.parent.model_name
+
+
+class ModelImage(models.Model):
+	parent = models.ForeignKey(Mod, on_delete = models.CASCADE)
+	file = models.ImageField(upload_to = 'static/storage/img/models')
+
+	def __str__(self):
+		return self.parent.model_name

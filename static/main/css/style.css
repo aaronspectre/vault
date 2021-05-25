@@ -439,6 +439,7 @@ body a:hover{
 .settings-avatar a{
 	font-size: 2.5vh;
 	display: none;
+	color: white;
 }
 .settings-avatar a:hover{
 	text-decoration: none;
@@ -449,7 +450,6 @@ body a:hover{
 }
 .settings-avatar:hover a{
 	display: initial;
-	color: white;
 }
 .settings-account-button{
 	padding: 1vh 2vh;
