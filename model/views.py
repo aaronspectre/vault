@@ -111,6 +111,7 @@ def downloadModel(request, link):
 	path = f'static/{filename}.zip'
 
 	try:
+<<<<<<< HEAD
 		with ZipFile(path, 'w') as zip_archive:
 			for file in model_files:
 				zip_archive.write(str(file.file))
@@ -123,6 +124,18 @@ def downloadModel(request, link):
 
 		return response
 
+=======
+		with ZipFile(path, 'w') as zip_file:
+			for file in model_files:
+				zip_file.write(str(file.file))
+
+			mime_type, _ = mimetypes.guess_type(path)
+
+			response = HttpResponse(zip_file, content_type=mime_type)
+			response['Content-Disposition'] = "attachment; filename=%s" % filename
+			os.remove(path)
+			return response
+>>>>>>> 368173099646d26856d80f1f58e60225a1e5bb80
 	except Exception as e:
 		print(e)
 		return HttpResponseRedirect(reverse('user:profile'))
