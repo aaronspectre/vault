@@ -12,7 +12,7 @@ from user.models import Author
 from model.forms import ModForm
 from django.utils import timezone
 
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, FileResponse
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 
@@ -111,6 +111,20 @@ def downloadModel(request, link):
 	path = f'static/{filename}.zip'
 
 	try:
+<<<<<<< HEAD
+		with ZipFile(path, 'w') as zip_archive:
+			for file in model_files:
+				zip_archive.write(str(file.file))
+
+
+		response = HttpResponse(open(path, 'rb'), content_type='application/zip')
+		response['Content-Disposition'] = 'attachment; filename={0}'.format(filename)
+
+		os.remove(path)
+
+		return response
+
+=======
 		with ZipFile(path, 'w') as zip_file:
 			for file in model_files:
 				zip_file.write(str(file.file))
@@ -121,6 +135,7 @@ def downloadModel(request, link):
 			response['Content-Disposition'] = "attachment; filename=%s" % filename
 			os.remove(path)
 			return response
+>>>>>>> 368173099646d26856d80f1f58e60225a1e5bb80
 	except Exception as e:
 		print(e)
 		return HttpResponseRedirect(reverse('user:profile'))
