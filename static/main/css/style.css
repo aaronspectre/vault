@@ -202,6 +202,10 @@ body a:hover{
 }
 
 .model-view-btn{
+	margin: auto;
+	display: block;
+	text-decoration: none;
+	text-align: center;
 	margin-top: 5vh;
 	background: black;
 	border: 1px solid black;
@@ -212,6 +216,7 @@ body a:hover{
 }
 .model-view-btn:hover{
 	box-shadow: 0 5px 10px black;
+	color: white;
 }
 
 .model-holder{
@@ -229,7 +234,7 @@ body a:hover{
 
 .search-box-wrapper{
 	width: 75%;
-	height: 5vh;
+	height: 6vh;
 	background: white;
 	margin: 0 auto;
 	margin-top: 5vh;
@@ -244,8 +249,6 @@ body a:hover{
 	margin-left: 0;
 }
 .search-field:focus{
-	background: none;
-	border: none;
 	outline: none;
 }
 .search-btn{
@@ -254,9 +257,6 @@ body a:hover{
 	background: none;
 	border-radius: 100%;
 	padding: 1vh 1.5vh;
-}
-.search-btn:hover{
-	background: #bfbfbf;
 }
 
 .cards-category{

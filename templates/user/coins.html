@@ -1,6 +1,6 @@
 {% extends 'main/index.html' %}
 
-{% block title %}Aviators - {{request.user}}'s coins{% endblock %}
+{% block title %}3dFixed - {{request.user}}'s coins{% endblock %}
 
 {% block content %}
 	<div class="container mt-4 w-50">
@@ -10,7 +10,7 @@
 				<form action="{% url 'engine:friend' %}" method="post" class="friend-search-form">
 					{% csrf_token %}
 					<input type="text" placeholder="john219" name="query">
-					<button type="submit"><span class="fas fa-search"></span></button>
+					<button type="submit"><span class="fad fa-search"></span></button>
 				</form>
 			</div>
 		</div>
@@ -23,9 +23,9 @@
 						<li>
 							<a href="{% url 'engine:stranger' stranger %}" class="coins-user">{{stranger}} <small style="float: right;">{{stranger.coins|length}} coins</small></a>
 							{% if request.user.id not in stranger.coins %}
-								<a href="{% url 'engine:addto' %}?userid={{stranger.id}}&to=subs&back=coins" class="coins-give"><small>Give a Coin <span class="fas fa-coins"></span></small></a>
+								<a href="{% url 'engine:addto' %}?userid={{stranger.id}}&to=subs&back=coins" class="coins-give"><small>Give a Coin <span class="fad fa-coins"></span></small></a>
 							{% else %}
-								<a href="{% url 'engine:removefrom' %}?userid={{stranger.id}}&from=subs&back=coins" class="coins-take"><small>Retake Coin <span class="fas fa-user-times"></span></small></a>
+								<a href="{% url 'engine:removefrom' %}?userid={{stranger.id}}&from=subs&back=coins" class="coins-take"><small>Retake Coin <span class="fad fa-user-times"></span></small></a>
 							{% endif %}
 						</li>
 						{% endfor %}
@@ -49,9 +49,9 @@
 						<li>
 							<a href="{% url 'engine:stranger' stranger %}" class="coins-user">{{stranger}} <small style="float: right;">{{stranger.coins|length}} coins</small></a>
 							{% if request.user.id not in stranger.coins %}
-								<a href="{% url 'engine:addto' %}?userid={{stranger.id}}&to=subs&back=coins" class="coins-give"><small>Give a Coin <span class="fas fa-coins"></span></small></a>
+								<a href="{% url 'engine:addto' %}?userid={{stranger.id}}&to=subs&back=coins" class="coins-give"><small>Give a Coin <span class="fad fa-coins"></span></small></a>
 							{% else %}
-								<a href="{% url 'engine:removefrom' %}?userid={{stranger.id}}&from=subs&back=coins" class="coins-take"><small>Retake Coin <span class="fas fa-user-times"></span></small></a>
+								<a href="{% url 'engine:removefrom' %}?userid={{stranger.id}}&from=subs&back=coins" class="coins-take"><small>Retake Coin <span class="fad fa-user-times"></span></small></a>
 							{% endif %}
 						</li>
 						{% endfor %}

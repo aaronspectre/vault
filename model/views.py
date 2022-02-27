@@ -38,6 +38,7 @@ def modelupload(request):
 def upload(request):
 	if request.method == 'POST':
 		form = ModForm(request.POST, request.FILES)
+		# print(form.errors.items())
 		if form.is_valid():
 			category = get_object_or_404(Category, name = request.POST['model_category'])
 			files = request.FILES.getlist('model_file')
@@ -111,7 +112,6 @@ def downloadModel(request, link):
 	path = f'static/{filename}.zip'
 
 	try:
-<<<<<<< HEAD
 		with ZipFile(path, 'w') as zip_archive:
 			for file in model_files:
 				zip_archive.write(str(file.file))
@@ -124,7 +124,6 @@ def downloadModel(request, link):
 
 		return response
 
-=======
 		with ZipFile(path, 'w') as zip_file:
 			for file in model_files:
 				zip_file.write(str(file.file))
@@ -135,7 +134,6 @@ def downloadModel(request, link):
 			response['Content-Disposition'] = "attachment; filename=%s" % filename
 			os.remove(path)
 			return response
->>>>>>> 368173099646d26856d80f1f58e60225a1e5bb80
 	except Exception as e:
 		print(e)
 		return HttpResponseRedirect(reverse('user:profile'))

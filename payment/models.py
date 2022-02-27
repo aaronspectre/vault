@@ -6,7 +6,7 @@ from model.models import Mod
 
 class PaymentSession(models.Model):
 	amount = models.IntegerField(default = 0)
-	modelset = models.JSONField(default = list())
+	modelset = models.JSONField(default = list)
 	customer_email = models.EmailField()
 	stripe_customer_id = models.CharField(max_length = 30)
 	stripe_customer = models.CharField(max_length = 30)

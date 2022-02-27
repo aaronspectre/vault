@@ -1,6 +1,5 @@
 from django.contrib import admin
 
-from .models import PaymentSession, Debt
+from .models import PaymentSession
 
 admin.site.register(PaymentSession)
-admin.site.register(Debt)

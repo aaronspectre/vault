@@ -1,6 +1,6 @@
 {% extends 'main/index.html' %}
 
-{% block title %}Aviators - {{stranger.username}}'s profile{% endblock %}
+{% block title %}3dFixed - {{stranger.username}}'s profile{% endblock %}
 
 {% block catnav %}{% endblock %}
 
@@ -40,14 +40,14 @@
 					<br>
 					{% if not request.user.is_anonymous %}
 						{% if request.user.id not in stranger.coins %}
-							<a href="{% url 'engine:addto' %}?userid={{stranger.id}}&to=subs&back=stranger" class="btn-warning profile-button"><small>Give a Coin <span class="fas fa-coins"></span></small></a>
+							<a href="{% url 'engine:addto' %}?userid={{stranger.id}}&to=subs&back=stranger" class="btn-warning profile-button"><small>Give a Coin <span class="fad fa-coins"></span></small></a>
 						{% else %}
-							<a href="{% url 'engine:removefrom' %}?userid={{stranger.id}}&from=subs&back=stranger" class="profile-button"><small>Retake Coin <span class="fas fa-user-times"></span></small></a>
+							<a href="{% url 'engine:removefrom' %}?userid={{stranger.id}}&from=subs&back=stranger" class="profile-button"><small>Retake Coin <span class="fad fa-user-times"></span></small></a>
 						{% endif %}
 					{% endif %}
-					<a href="javascript:(void)" class="profile-button"><small>Contact <span class="fas fa-comment-dots"></span></small></a>
+					<a href="javascript:(void)" class="profile-button"><small>Contact <span class="fad fa-comment-dots"></span></small></a>
 					<div class="dropdown show" style="float: left; margin-right: 1vh;">
-						<a href="javascript:(void)" class="profile-button dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><small>Report <span class="fas fa-exclamation-circle"></span></small></a>
+						<a href="javascript:(void)" class="profile-button dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><small>Report <span class="fad fa-exclamation-circle"></span></small></a>
 						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 							<a class="dropdown-item" href="javascript:(void)" onclick="sendReport(this.innerText)">Violence</a>
 							<a class="dropdown-item" href="javascript:(void)" onclick="sendReport(this.innerText)">Spam</a>
@@ -75,12 +75,12 @@
 												<img src="{{model|get_model_image}}" class="img-fluid w-100 h-100">
 											</div>
 											<div class="model-desc p-2">
-												<p style="margin: 0;">{{model.model_name}}</p>
+												<p style="margin: 0;"><a href="{% url 'model:modelview' model.id %}">{{model.model_name}}</a></p>
 												<small>by {{model.model_author}}</small><br>
 												<small style="float: left;"><b>{{model.model_price}}$</b></small>
 												<div style="float: right">
-													<a href="{% url 'engine:addto' %}?model_id={{model.id}}&to=favs"><span class="fas fa-heart"></span></a>
-													<a href="{% url 'engine:addto' %}?model_id={{model.id}}&to=cart"><span class="fas fa-shopping-cart"></span></a>
+													<a href="{% url 'engine:addto' %}?model_id={{model.id}}&to=favs"><span class="fad fa-heart"></span></a>
+													<a href="{% url 'engine:addto' %}?model_id={{model.id}}&to=cart"><span class="fad fa-shopping-cart"></span></a>
 												</div>
 											</div>
 										</div>

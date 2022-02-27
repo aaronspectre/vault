@@ -16,9 +16,9 @@
 				<div class="settings-sidebar">
 					<ul style="padding: 0; list-style: none;">
 						<li class="settings-sidebar-item"><a href="{% url 'user:user_settings' 'General' %}">General</a></li>
-						<li class="settings-sidebar-item"><a href="{% url 'user:user_settings' 'Payment Accounts' %}">Payment Accounts</a></li>
-						<li class="settings-sidebar-item"><a href="{% url 'user:user_settings' 'Privacy' %}">Privacy</a></li>
-						<li class="settings-sidebar-item"><a href="{% url 'user:user_settings' 'Security' %}">Security</a></li>
+						<li class="settings-sidebar-item"><a>Payment Accounts</a></li>
+						<li class="settings-sidebar-item"><a>Privacy</a></li>
+						<li class="settings-sidebar-item"><a>Security</a></li>
 					</ul>
 				</div>
 			</div>
@@ -123,7 +123,7 @@
 					{% elif type == 'Payment Accounts' %}
 						{% if request.user.author.stripe_account != -1 %}
 							<form action="" method="post" class="mt-5 mb-5">
-								<h5>Stripe <a href="{% url 'payment:stripeaccount' %}"><small><span class="fas fa-edit"></span></small></a></h5>
+								<h5>Stripe <a href="{% url 'payment:stripeaccount' %}"><small><span class="fad fa-edit"></span></small></a></h5>
 								{% csrf_token %}
 								<div class="form-row mt-3">
 									<div class="col-md-6">

@@ -1,5 +1,5 @@
 {% extends 'main/index.html' %}
-{% block title %}Aviators - Search{% endblock %}
+{% block title %}3dFixed - Search{% endblock %}
 
 {% block catnav %}{% endblock %}
 
@@ -32,7 +32,7 @@
 						<div class="form-group">
 							<input type="text" placeholder="Search" class="form-control" style="width: 90%; float: left;" name="query">
 							<input type="hidden" name="type" value="byname">
-							<button class="btn" style="width: 10%;"><span class="fas fa-search"></span></button>
+							<button class="btn" style="width: 10%;"><span class="fad fa-search"></span></button>
 						</div>
 					</form>
 				</div>
@@ -51,8 +51,8 @@
 								<small>by <a href="{% url 'engine:stranger' model.model_author %}">{{model.model_author}}</a></small><br><br>
 								<small style="float: left;"><b>{{model.model_price|viewFree}}</b></small>
 								<div style="float: right">
-									<a href="{% url 'engine:addto' %}?model_id={{model.id}}&query={{model.model_category}}&to=favs"><span class="fas fa-heart"></span></a>
-									<a href="{% url 'engine:addto' %}?model_id={{model.id}}&query={{model.model_category}}&to=cart"><span class="fas fa-shopping-cart"></span></a>
+									<a href="{% url 'engine:addto' %}?model_id={{model.id}}&query={{model.model_category}}&to=favs"><span class="fad fa-heart"></span></a>
+									<a href="{% url 'engine:addto' %}?model_id={{model.id}}&query={{model.model_category}}&to=cart"><span class="fad fa-shopping-cart"></span></a>
 								</div>
 							</div>
 						</div>

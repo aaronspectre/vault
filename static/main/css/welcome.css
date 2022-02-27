@@ -1,0 +1,35 @@
+.welcome{
+	height: 100vh;
+	width: 100%;
+	background: black;
+	position: relative;
+}
+.welcome-image-container{
+	margin: auto;
+	width: 80%;
+	height: 100%;
+	opacity: .8;
+}
+.welcome-caption{
+	position: absolute;
+	color: white;
+	width: 40%;
+	z-index: 999;
+	padding: 5vh 10vh;
+	top: 20vh;
+}
+.welcome-caption a{
+	display: block;
+	background: white;
+	border: 1px solid white;
+	padding: 1.5vh;
+	border-radius: 1vh;
+	width: 100%;
+	text-align: center;
+	text-decoration: none;
+	transition: .2s;
+}
+.welcome-caption a:hover{
+	background: transparent;
+	color: white;
+}

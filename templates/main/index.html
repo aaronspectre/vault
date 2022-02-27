@@ -3,24 +3,19 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>{% block title %}Aviators - Main{% endblock %}</title>
+	<title>{% block title %}3dFixed - Main{% endblock %}</title>
 	{% load static %}
 	<link rel="stylesheet" href="{% static 'main/css/style.css' %}">
 	<link rel="stylesheet" href="{% static 'main/css/result.css' %}">
-	<link rel="stylesheet" href="{% static 'main/css/all.min.css' %}">
+	<link rel="stylesheet" href="{% static 'main/css/welcome.css' %}">
 	<link rel="icon" href="{% static 'main/img/icon.png' %}">
 
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-
-
-	<script src="{% static 'chat/js/chat.js' %}"></script>
-
 	<script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch"></script>
-	<script src="https://js.stripe.com/v3/"></script>
+	<link href="https://kit-pro.fontawesome.com/releases/v6.0.0/css/pro.min.css" rel="stylesheet">
 
 	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-	<!-- <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script> -->
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 	<script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 
@@ -29,14 +24,14 @@
 	<div class="container-fluid p-0">
 		<nav id="navbar">
 			<div id="brand" class="menu-item">
-				<a href="{% url 'main:index' %}">Aviators</a>
+				<a href="{% url 'main:index' %}">3dFixed</a>
 			</div>
 			<div class="menu-item text-right" id="right-menu">
 				{% if user.is_authenticated %}
-				<a href="{% url 'main:dashboard' %}" class="menu-btn">Dashboard <span class="fas fa-clipboard-list"></span></a>
-				<a href="{% url 'user:profile' %}" class="menu-btn"><span class="fas fa-user-circle"></span></a>
-				<a href="{% url 'model:modelupload' %}" class="menu-btn"><span class="fas fa-upload"></span></a>
-				<a href="{% url 'user:user_cart' %}" class="menu-btn"><span class="fas fa-shopping-cart"></span><small>{{request.user.author.cart|length}}</small></a>
+				<a href="{% url 'main:dashboard' %}" class="menu-btn">Dashboard <span class="fad fa-clipboard-list"></span></a>
+				<a href="{% url 'user:profile' %}" class="menu-btn"><span class="fad fa-user-circle"></span></a>
+				<a href="{% url 'model:modelupload' %}" class="menu-btn"><span class="fad fa-upload"></span></a>
+				<a href="{% url 'user:user_cart' %}" class="menu-btn"><span class="fad fa-shopping-cart"></span><small>{{request.user.author.cart|length}}</small></a>
 				{% else %}
 				<a href="{% url 'user:loginform' %}" class="menu-btn">Sign In</a>
 				<a href="{% url 'user:registration' %}" class="menu-btn">Sign Up</a>
@@ -48,6 +43,7 @@
 
 		<div id="main">
 			{% block content %}
+				{% comment %}
 				<div id="starting-screen">
 					<div class="slider">
 						<div class="slider-inner">
@@ -60,11 +56,11 @@
 									<h4>Some Super Title</h4>
 									<font size="3"><i>by Author</i></font>
 									<ul class="slider-stars">
-										<li><span class="fas fa-star"></span></li>
-										<li><span class="fas fa-star"></span></li>
-										<li><span class="fas fa-star"></span></li>
-										<li><span class="fas fa-star"></span></li>
-										<li><span class="fas fa-star"></span></li>
+										<li><span class="fad fa-star"></span></li>
+										<li><span class="fad fa-star"></span></li>
+										<li><span class="fad fa-star"></span></li>
+										<li><span class="fad fa-star"></span></li>
+										<li><span class="fad fa-star"></span></li>
 									</ul>
 									<p class="mt-3">Lorem ipsum dolor sit amet, fugiat tempori Lorem ipsum dolor sit amet, fugiat tempori</p>
 									<button class="slider-item-btn">Show</button>
@@ -79,11 +75,11 @@
 									<h4>Some Super Title</h4>
 									<font size="3"><i>by Author</i></font>
 									<ul class="slider-stars">
-										<li><span class="fas fa-star"></span></li>
-										<li><span class="fas fa-star"></span></li>
-										<li><span class="fas fa-star"></span></li>
-										<li><span class="fas fa-star"></span></li>
-										<li><span class="fas fa-star"></span></li>
+										<li><span class="fad fa-star"></span></li>
+										<li><span class="fad fa-star"></span></li>
+										<li><span class="fad fa-star"></span></li>
+										<li><span class="fad fa-star"></span></li>
+										<li><span class="fad fa-star"></span></li>
 									</ul>
 									<p class="mt-3">Lorem ipsum dolor sit amet, fugiat tempori</p>
 									<button class="slider-item-btn">Show</button>
@@ -98,11 +94,11 @@
 									<h4>Some Super Title</h4>
 									<font size="3"><i>by Author</i></font>
 									<ul class="slider-stars">
-										<li><span class="fas fa-star"></span></li>
-										<li><span class="fas fa-star"></span></li>
-										<li><span class="fas fa-star"></span></li>
-										<li><span class="fas fa-star"></span></li>
-										<li><span class="fas fa-star"></span></li>
+										<li><span class="fad fa-star"></span></li>
+										<li><span class="fad fa-star"></span></li>
+										<li><span class="fad fa-star"></span></li>
+										<li><span class="fad fa-star"></span></li>
+										<li><span class="fad fa-star"></span></li>
 									</ul>
 									<p class="mt-3">Lorem ipsum dolor sit amet, fugiat tempori</p>
 									<button class="slider-item-btn">Show</button>
@@ -117,11 +113,11 @@
 									<h4>Some Super Title</h4>
 									<font size="3"><i>by Author</i></font>
 									<ul class="slider-stars">
-										<li><span class="fas fa-star"></span></li>
-										<li><span class="fas fa-star"></span></li>
-										<li><span class="fas fa-star"></span></li>
-										<li><span class="fas fa-star"></span></li>
-										<li><span class="fas fa-star"></span></li>
+										<li><span class="fad fa-star"></span></li>
+										<li><span class="fad fa-star"></span></li>
+										<li><span class="fad fa-star"></span></li>
+										<li><span class="fad fa-star"></span></li>
+										<li><span class="fad fa-star"></span></li>
 									</ul>
 									<p class="mt-3">Lorem ipsum dolor sit amet, fugiat tempori</p>
 									<button class="slider-item-btn">Show</button>
@@ -129,8 +125,19 @@
 							</div>
 						</div>
 					</div>
-					<a href="javascript:(void)" class="slider-controller" style="float: left;" onclick="slide('left')"><span class="fas fa-angle-left"></span></a>
-					<a href="javascript:(void)" class="slider-controller" style="float: right;" onclick="slide('right')"><span class="fas fa-angle-right"></span></a>
+					<a href="javascript:(void)" class="slider-controller" style="float: left;" onclick="slide('left')"><span class="fad fa-angle-left"></span></a>
+					<a href="javascript:(void)" class="slider-controller" style="float: right;" onclick="slide('right')"><span class="fad fa-angle-right"></span></a>
+				</div>
+				{% endcomment %}
+				<div class="welcome">
+					<div class="welcome-caption">
+						<h2>Welcome to 3dFixed</h2><br>
+						<p>3dFixed is a place where You can find hundreds of free models. Start your journey here.</p><br>
+						<a href="{% url 'engine:searchengine' %}?query=new&type=filter">Explore</a>
+					</div>
+					<div class="welcome-image-container">
+						<img src="{% static 'main/img/welcome.jpg' %}" class="w-100 h-100">
+					</div>
 				</div>
 
 
@@ -139,8 +146,10 @@
 						<div class="col-md-6">
 							<div class="text-center p-5">
 								<h3 align="center">Model of the day!</h3>
-								<p class="mt-5">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Facilis, eius, aspernatur repellat numquam saepe fugiat, cumque eaque nostrum laborum, provident assumenda sunt ea culpa et ipsam vero atque voluptatem doloribus.Lorem ipsum dolor sit, amet consectetur adipisicing elit. Facilis, eius, aspernatur repellat numquam saepe fugiat.</p>
-								<button class="model-view-btn">Download</button>
+								<p class="mt-5">Name: {{model.model_name}}</p>
+								<p>Details: {{model.model_desc}}</p>
+								<p>Author: <a href="{% url 'engine:stranger' model.model_author %}">{{model.model_author}}</a></p>
+								<a class="model-view-btn" href="{% url 'model:modelview' model.id %}">Download</a>
 							</div>
 						</div>
 						<div class="col-md-6 p-0 m-0">
@@ -161,7 +170,7 @@
 								<div class="search-box-wrapper">
 									<input type="text" name="query" class="search-field" placeholder="Find your model ...">
 									<input type="hidden" name="type" value="byname">
-									<button class="search-btn" type="submit"><span class="fas fa-search"></span></button>
+									<button class="search-btn" type="submit"><span class="fad fa-search"></span></button>
 								</div>
 							</form>
 						</div>
@@ -188,7 +197,7 @@
 			<div class="container-fluid p-0">
 				<div class="row">
 					<div class="col-md-6">
-						<h3>Brand</h3>
+						<h3>3dFixed</h3>
 						<ul class="social-links-menu">
 							<li class="social-links"><a href="javascript:(void)"><span class="fab fa-facebook"></span></a></li>
 							<li class="social-links"><a href="javascript:(void)"><span class="fab fa-instagram"></span></a></li>
@@ -197,6 +206,7 @@
 						</ul>
 						&copy; All rights reserved. Copyright.
 					</div>
+					{% comment %}
 					<div class="col-md-3">
 						<h4>Policies</h4>
 						<ul class="footer-menu">
@@ -221,6 +231,7 @@
 							<li class="footer-menu-item">Contact</li>
 						</ul>
 					</div>
+					{% endcomment %}
 				</div>
 			</div>
 		</div>

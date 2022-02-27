@@ -3,19 +3,21 @@
 {% block title %}{{model.model_name}}{% endblock %}
 
 {% load filters %}
+{% load model_filters %}
 
 {% block content %}
 	<div class="container mt-3" onload="modelViewImg(document.querySelector('.modelview-img-holder'))">
 		<div class="row">
 			<div class="col-md-12">
-				<a href="{{referer}}"><span class="fas fa-arrow-left"></span> Back</a>
+				<a href="{{referer}}"><span class="fad fa-arrow-left"></span> Back</a>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-md-6 p-5">
 				<div class="modelview-img-holder">
-					{% load model_filters %}
-					<img src="{{model|get_model_image}}" alt="{{model.model_name}}" class="w-100 h-100 img-fluid">
+					{% for image in model|model_images %}
+					<img src="{{image.file.url}}" alt="{{model.model_name}}" class="w-100 h-100 img-fluid">
+					{% endfor %}
 				</div>
 			</div>
 			<div class="col-md-6 p-5">
@@ -29,13 +31,13 @@
 					<span class="badge badge-pill badge-dark">{{tag}}</span>
 				{% endfor %}
 				<br><br>
-				<small><span class="fas fa-eye"></span> {{model.model_views}}</small>
-				<small><span class="fas fa-heart"></span> {{model.model_favs}}</small>
+				<small><span class="fad fa-eye"></span> {{model.model_views}}</small>
+				<small><span class="fad fa-heart"></span> {{model.model_favs}}</small>
 				<hr>
-				<a class="modelview-btn" href="{% url 'engine:addto' %}?model_id={{model.id}}&to=favs">Add to Favorites <span class="fas fa-heart"></span></a>
-				<a class="modelview-btn" href="{% url 'engine:addto' %}?model_id={{model.id}}&to=cart">Add to Cart <span class="fas fa-shopping-cart"></span></a>
+				<a class="modelview-btn" href="{% url 'engine:addto' %}?model_id={{model.id}}&to=favs">Add to Favorites <span class="fad fa-heart"></span></a>
+				<a class="modelview-btn" href="{% url 'engine:addto' %}?model_id={{model.id}}&to=cart">Add to Cart <span class="fad fa-shopping-cart"></span></a>
 				{% if model|modelDownload %}
-					<a class="modelview-btn" href="{% url 'model:download' model.model_link %}">Download <span class="fas fa-download"></span></a>
+					<a class="modelview-btn" href="{% url 'model:download' model.model_link %}">Download <span class="fad fa-download"></span></a>
 				{% endif %}
 
 			</div>

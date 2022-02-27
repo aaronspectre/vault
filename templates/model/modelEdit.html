@@ -1,6 +1,6 @@
 {% extends 'main/index.html' %}
 
-{% block title %}Aviators - {{model.model_name}}{% endblock %}
+{% block title %}3dFixed - {{model.model_name}}{% endblock %}
 
 {% load filters %}
 
@@ -41,7 +41,8 @@
 					</div>
 				</div>
 				<div class="col-md-6">
-					{% if allowPrice %}
+					{% comment %}
+					<!-- {% if allowPrice %}
 					<div class="model-edit-section">
 						<label for="#id_model_price">Price <small class="text-secondary">10% Commision</small></label><br>
 						<div class="input-group">
@@ -65,7 +66,7 @@
 						<label for="#id_model_price">Price <small class="text-secondary">Free</small></label><br>
 						<div class="input-group" onclick="alert('You don`t have any payment account. To create account, go to Profile -> Settings -> Payment Accounts')">
 							<div class="input-group-prepend">
-								<div class="input-group-text"><span><span class="fas fa-question-circle"></span></span></div>
+								<div class="input-group-text"><span><span class="fad fa-question-circle"></span></span></div>
 							</div>
 							<input type="number" class="form-control" value="0" id="id_model_price" disabled><br>
 							<input type="hidden" name="author_price" value="0">
@@ -74,7 +75,8 @@
 							<input type="hidden" name="price" value="0">
 						</div>
 					</div>
-					{% endif %}
+					{% endif %} -->
+					{% endcomment %}
 					<div class="model-edit-section">
 						<label for="#mtool">Used Tool</label>
 						<select name="tool" id="mtool" class="form-control">
@@ -88,22 +90,12 @@
 						<textarea class="form-control" name="desc" id="mdesc" rows="6">{{model.model_desc}}</textarea>
 					</div>
 					<div class="model-edit-section text-right">
+						<input type="hidden" name="author_price" value="0">
+							<input type="hidden" name="price" value="0">
 						<button type="submit">Save</button>
 					</div>
 				</div>
 			</div>
 		</form>
-		<script type="text/javascript">
-		let f1 = document.getElementById('id_model_price')
-		let f2 = document.getElementById('id_model_actual_price')
-		function commision(val){
-			comm= (Number(val)/100)*10
-			f2.value = Number(val)+comm
-		}
-		function finalPrice(val){
-			comm= (Number(val)/100)*10
-			f1.value = Number(val)-comm
-		}
-	</script>
 	</div>
 {% endblock %}

@@ -1,6 +1,6 @@
 {% extends 'main/index.html' %}
 
-{% block title %}Aviators - {{user}}'s {{type}}{% endblock %}
+{% block title %}3dFixed - {{user}}'s {{type}}{% endblock %}
 
 {% block content %}
 
@@ -29,31 +29,25 @@
 				<div class="bar-text-holder">
 					<h2>
 						{{user.username}}
-						{% if request.user.author.vipstatus %}
-							<small><span class="text-warning fas fa-crown"></span></small>
-						{% endif %}
 					</h2>
 					<p><small><a href="{% url 'user:userCoins' %}">Coins {{ user.author.coins|length }}</a></small></p>
 					<hr>
 					<div class="row">
 						<div class="col-md-6 mb-2" style="border-right: 1px solid #ced4da;">
-							<p><span class="fas fa-id-card"></span> {{user.first_name}} {{user.last_name}}</p>
-							<p><span class="fas fa-map-marker-alt"></span> {{user.author.location}}</p>
-							<p><span class="fas fa-envelope"></span> {{user.email}}</p>
-							<p><span class="fas fa-credit-card"></span> {{user.author.credit}}</p>
+							<p><span class="fad fa-id-card"></span> {{user.first_name}} {{user.last_name}}</p>
+							<p><span class="fad fa-map-marker-alt"></span> {{user.author.location}}</p>
+							<p><span class="fad fa-envelope"></span> {{user.email}}</p>
+							<p><span class="fad fa-credit-card"></span> {{user.author.credit}}</p>
 						</div>
 						<div class="col-md-6 mb-2">
-							<p><span class="fas fa-tools"></span> {{user.author.favtool}}</p>
-							<p><span class="fas fa-venus-mars"></span> {{user.author.gender}}</p>
-							<p><span class="fas fa-link"></span> <a href="{{user.author.website}}">Link</a></p>
-							<p><span class="fas fa-phone"></span>  {{user.author.phone}}</p>
+							<p><span class="fad fa-tools"></span> {{user.author.favtool}}</p>
+							<p><span class="fad fa-venus-mars"></span> {{user.author.gender}}</p>
+							<p><span class="fad fa-link"></span> <a href="{{user.author.website}}">Link</a></p>
+							<p><span class="fad fa-phone"></span>  {{user.author.phone}}</p>
 						</div>
 					</div>
 					<a href="{% url 'user:user_logout' %}" class="profile-button profile-button-lo"><small><b>Logout</b></small></a>
-					{% if request.user.author.vipstatus == False %}
-						<a href="{% url 'payment:showvip' %}" class="profile-button-vip"><small><b>Buy </b> <span class="fas fa-crown"></span></small></a>
-					{% endif %}
-					<a href="{% url 'user:user_settings' 'General' %}" class="profile-button"><small>Edit <span class="fas fa-edit"></span></small></a>
+					<a href="{% url 'user:user_settings' 'General' %}" class="profile-button"><small>Edit <span class="fad fa-edit"></span></small></a>
 				</div>
 			</div>
 		</div>
@@ -64,23 +58,23 @@
 				<div class="profile-bar">
 					<div class="bar-btn-holder">
 						<div class="text-center" style="width: 20%; display: inline-block; float: left;">
-							<a href="{% url 'user:user_settings' 'General' %}?section=Genral"><span class="fas fa-cog"></span></a>
+							<a href="{% url 'user:user_settings' 'General' %}?section=Genral"><span class="fad fa-cog"></span></a>
 							<p>Settings</p>
 						</div>
 						<div class="text-center" style="width: 20%; display: inline-block; float: left;">
-							<a href="{% url 'user:profile' %}"><span class="fas fa-folder"></span></a>
+							<a href="{% url 'user:profile' %}"><span class="fad fa-folder"></span></a>
 							<p>Your Models</p>
 						</div>
 						<div class="text-center" style="width: 20%; display: inline-block; float: left;">
-							<a href="{% url 'user:user_favs' %}"><span class="fas fa-heart"></span></a>
+							<a href="{% url 'user:user_favs' %}"><span class="fad fa-heart"></span></a>
 							<p>Favourites</p>
 						</div>
 						<div class="text-center" style="width: 20%; display: inline-block; float: left;">
-							<a href="{% url 'user:user_cart' %}"><span class="fas fa-shopping-cart"></span></a>
+							<a href="{% url 'user:user_cart' %}"><span class="fad fa-shopping-cart"></span></a>
 							<p>Cart</p>
 						</div>
 						<div class="text-center" style="width: 20%; display: inline-block; float: left;">
-							<a href="{% url 'user:user_archive' %}"><span class="fas fa-archive"></span></a>
+							<a href="{% url 'user:user_archive' %}"><span class="fad fa-archive"></span></a>
 							<p>Archive</p>
 						</div>
 					</div>
@@ -89,13 +83,13 @@
 					<hr>
 					<div class="user-models-wrapper">
 
-						{% if type == 'cart' and modelset %}
+						<!-- {% if type == 'cart' and modelset %}
 							<div class="row">
 								<div class="col-md-12 text-right">
-									<a href="{% url 'payment:showcart' %}" class="profile-button">Purchase <span class="fas fa-wallet"></span></a>
+									<a href="{% url 'payment:showcart' %}" class="profile-button">Purchase <span class="fad fa-wallet"></span></a>
 								</div>
 							</div>
-						{% endif %}
+						{% endif %} -->
 
 						<div class="row mt-3">
 							{% if modelset %}
@@ -107,19 +101,21 @@
 												<img src="{{model|get_model_image}}" class="img-fluid w-100 h-100">
 											</div>
 											<div class="model-desc p-3">
-												<p style="margin: 0;">{{model.model_name}}</p>
+												<p style="margin: 0;"><a href="{% url 'model:modelview' model.id %}">{{model.model_name}}</a></p>
 												<small>{{model.model_author}}</small><br><br>
 												<small style="float: left;"><b>{{model.model_price}}$</b></small>
 												<div style="float: right">
 													{% if type == 'favourites' %}
-														<a href="{% url 'engine:removefrom' %}?model_id={{model.id}}&from=favs"><span class="fas fa-trash-alt"></span></a>
-														<a href="{% url 'engine:addto' %}?model_id={{model.id}}&to=cart"><span class="fas fa-shopping-cart"></span></a>
+														<a href="{% url 'engine:removefrom' %}?model_id={{model.id}}&from=favs"><span class="fad fa-trash-alt"></span></a>&nbsp;
+														<a href="{% url 'engine:addto' %}?model_id={{model.id}}&to=cart"><span class="fad fa-shopping-cart"></span></a>&nbsp;
+														<a href="{% url 'model:download' model.model_link %}"><span class="fad fa-download"></span></a>
 													{% elif type == 'cart' %}
-														<a href="{% url 'engine:removefrom' %}?model_id={{model.id}}&from=cart"><span class="fas fa-trash-alt"></span></a>
+														<a href="{% url 'engine:removefrom' %}?model_id={{model.id}}&from=cart"><span class="fad fa-trash-alt"></span></a>&nbsp;
+														<a href="{% url 'model:download' model.model_link %}"><span class="fad fa-download"></span></a>
 													{% elif type == 'archive' %}
-														<a href="{% url 'model:download' model.model_link %}"><span class="fas fa-download"></span></a>
+														<a href="{% url 'model:download' model.model_link %}"><span class="fad fa-download"></span></a>
 													{% else %}
-														<a href="{% url 'model:delete' model.id %}"><span class="fas fa-trash-alt"></span></a>
+														<a href="{% url 'model:delete' model.id %}"><span class="fad fa-trash-alt"></span></a>
 													{% endif %}
 												</div>
 											</div>

@@ -1,17 +1,16 @@
-from django.shortcuts import render, get_object_or_404
+import json
 
+from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth import hashers
 from django.utils import timezone
 from django.core.files import File
-
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 
 from model.models import Mod
-from user.models import Author, StripeAccount
-import json
+from user.models import Author
 
 
 def registration(request):
@@ -139,8 +138,7 @@ def user_settings(request, type):
 
 	if type == 'Payment Accounts':
 		if request.user.author.stripe_account != -1:
-			stripeAccount = get_object_or_404(StripeAccount, id = request.user.author.stripe_account)
-			return render(request, 'user/userSettings.html', {'type': type, 'error': error, 'stripeAccount': stripeAccount})
+			return render(request, 'user/userSettings.html', {'type': type, 'error': error})
 
 
 	return render(request, 'user/userSettings.html', {'type': type, 'error': error})
