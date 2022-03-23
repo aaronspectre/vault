@@ -433,23 +433,15 @@ body a:hover{
 	overflow: hidden;
 	border: none;
 }
-.settings-avatar img{
-	position: absolute;
-}
-.settings-avatar a{
-	font-size: 2.5vh;
-	display: none;
+.settings-avatar label{
 	color: white;
+	z-index: 9999;
 }
-.settings-avatar a:hover{
-	text-decoration: none;
-	color: white;
-}
-.settings-avatar:hover img{
-	opacity: .3;
-}
-.settings-avatar:hover a{
-	display: initial;
+#avatar{
+	margin: 2vh 0;
+	border-radius: 5px;
+	border: 1px solid #ddd;
+	padding: 1vh;
 }
 .settings-account-button{
 	padding: 1vh 2vh;

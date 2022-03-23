@@ -26,7 +26,7 @@ SECRET_KEY = 't0=s3j#px2)z=-n7^9hf*3=7lf00h+d_u#$)6%$it(tfw3j9%e'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '3dfixed.com']
+ALLOWED_HOSTS = ['localhost', 'www.3dfixed.com']
 
 
 # Application definition

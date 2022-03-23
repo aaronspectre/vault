@@ -189,6 +189,7 @@ def changeSettings(request, *args):
 		user.save()
 		request.session['profile_message'] = 'Settings changes saved successfuly!'
 		request.session['profile_message_type'] = 'profile-message-success'
+
 	return HttpResponseRedirect(reverse('user:profile'))
 
 

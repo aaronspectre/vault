@@ -3,6 +3,7 @@
 {% block title %}{{user}} - Settings{% endblock %}
 
 {% load filters %}
+{% load static %}
 
 {% block content %}
 	<div class="container mt-4">
@@ -16,8 +17,6 @@
 				<div class="settings-sidebar">
 					<ul style="padding: 0; list-style: none;">
 						<li class="settings-sidebar-item"><a href="{% url 'user:user_settings' 'General' %}">General</a></li>
-						<li class="settings-sidebar-item"><a>Payment Accounts</a></li>
-						<li class="settings-sidebar-item"><a>Privacy</a></li>
 						<li class="settings-sidebar-item"><a>Security</a></li>
 					</ul>
 				</div>
@@ -44,10 +43,6 @@
 								<input type="password" name="cpass" id="cpass" placeholder="******" class="form-control" required>
 							</div>
 							<div class="form-team">
-								<label for="#email">Email</label>
-								<input type="email" name="email" id="email" value="{{user.email}}" class="form-control">
-							</div>
-							<div class="form-team">
 								<button type="submit">Save</button>
 							</div>
 						</form>
@@ -56,11 +51,12 @@
 							{% csrf_token %}
 							<div style="height: 25vh;">
 								<div class="settings-avatar">
-									{% load static %}
 									<img src="/{{request.user.author.avatar}}" class="w-100 h-100">
-									<a href="javascript:(void)" onclick="uploadFile()" id="fileUploadButton">Change</a>
-									<input type="file" name="avatar" value="{{user.author.avatar.file}}" style="display: none;" id="fileUpload" onchange="uploaded(this)">
 								</div>
+							</div>
+							<div class="form-team">
+								<label for="#fname">Avatar</label>
+								<input type="file" name="avatar" value="{{user.author.avatar}}" class="form-control" accept="image/*">
 							</div>
 							<div class="form-team">
 								<label for="#fname">First Name</label>
@@ -72,7 +68,7 @@
 							</div>
 							<div class="form-team">
 								<label for="#card">Credit Card</label>
-								<input id="card" type="tel" name="card" inputmode="numeric" pattern="[0-9\s]{13,19}" autocomplete="cc-number" maxlength="19" placeholder="xxxx xxxx xxxx xxxx" class="form-control" value="{{user.author.credit}}">
+								<input id="card" type="tel" name="card" inputmode="numeric" autocomplete="cc-number" maxlength="19" placeholder="xxxx xxxx xxxx xxxx" class="form-control" value="{{user.author.credit}}">
 							</div>
 							<div class="form-team">
 								<label for="#location">Location</label>
@@ -119,91 +115,6 @@
 								but.parentNode.childNodes[1].style.opacity = '.3'
 							}
 						</script>
-
-					{% elif type == 'Payment Accounts' %}
-						{% if request.user.author.stripe_account != -1 %}
-							<form action="" method="post" class="mt-5 mb-5">
-								<h5>Stripe <a href="{% url 'payment:stripeaccount' %}"><small><span class="fad fa-edit"></span></small></a></h5>
-								{% csrf_token %}
-								<div class="form-row mt-3">
-									<div class="col-md-6">
-										<label>Country: </label>
-									</div>
-									<div class="col-md-6">
-										<label>{{stripeAccount.country}}</label>
-									</div>
-								</div>
-								<div class="form-row mt-3">
-									<div class="col-md-6">
-										<label>Email: </label>
-									</div>
-									<div class="col-md-6">
-										<label>{{stripeAccount.email}}</label>
-									</div>
-								</div>
-								<div class="form-row mt-3">
-									<div class="col-md-6">
-										<label>Bank Name: </label>
-									</div>
-									<div class="col-md-6">
-										<label>{{stripeAccount.external_account.bank_name}}</label>
-									</div>
-								</div>
-								<div class="form-row mt-3">
-									<div class="col-md-6">
-										<label>Routing Number: </label>
-									</div>
-									<div class="col-md-6">
-										<label>{{stripeAccount.external_account.routing_number}}</label>
-									</div>
-								</div>
-								<div class="form-row mt-3">
-									<div class="col-md-6">
-										<label>Status: </label>
-									</div>
-									<div class="col-md-6 text-success">
-										<label>{{stripeAccount.transfers}}</label>
-									</div>
-								</div>
-							</form>
-						{% else %}
-							<div style="margin-top: 3vh; margin-bottom: 5vh;">
-								<h5>Stripe <span class="fab fa-stripe"></span></h5>
-								<p>You don`t have Strie account.</p>
-								<label><b>Stripe account allows you:</b></label>
-								<ul>
-									<li>Transfer money between Bank Accounts</li>
-									<li>Transfer money to credit cards</li>
-									<li>Secure and Private money transfer</li>
-								</ul>
-								<a href="{% url 'payment:stripeaccount' %}" class="settings-account-button">Create Stripe Account <span class="fab fa-cc-stripe"></span></a>
-							</div>
-						{% endif %}
-
-						<hr>
-
-						{% if request.user.author.paypal_account != -1 %}
-							<form action="" method="post" class="mt-4">
-								<h5>PayPal</h5>
-								{% csrf_token %}
-								<div class="form-team">
-									<button type="submit">Save</button>
-								</div>
-							</form>
-						{% else %}
-							<div style="margin-top: 5vh;">
-								<h5>PayPal <span class="fab fa-paypal"></span></h5>
-								<p>You don`t have PayPal account.</p>
-								<label><b>PayPal account allows you:</b></label>
-								<ul>
-									<li>Transfer money between PayPal accounts.</li>
-									<li>Secure and Private money transfer</li>
-									<li>Reliable</li>
-								</ul>
-								<a href="" class="settings-account-button">Create PayPal Account <span class="fab fa-paypal"></span></a>
-							</div>
-						{% endif %}
-
 					{% endif %}
 				</div>
 			</div>
