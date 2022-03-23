@@ -124,16 +124,6 @@ def downloadModel(request, link):
 
 		return response
 
-		with ZipFile(path, 'w') as zip_file:
-			for file in model_files:
-				zip_file.write(str(file.file))
-
-			mime_type, _ = mimetypes.guess_type(path)
-
-			response = HttpResponse(zip_file, content_type=mime_type)
-			response['Content-Disposition'] = "attachment; filename=%s" % filename
-			os.remove(path)
-			return response
 	except Exception as e:
 		print(e)
 		return HttpResponseRedirect(reverse('user:profile'))

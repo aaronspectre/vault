@@ -169,6 +169,7 @@ def changeSecurity(request):
 			print('old')
 			return HttpResponseRedirect(reverse('user:user_settings', args=('Security',)))
 
+
 @login_required
 def changeSettings(request, *args):
 	if request.method == 'POST':

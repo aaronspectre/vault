@@ -1,14 +1,14 @@
 from django.db import models
 
 from django.contrib.auth.models import User
-
+from django.conf import settings
 
 
 
 class Category(models.Model):
 	name = models.CharField(max_length = 40)
 	amount = models.IntegerField(default = 0)
-	img = models.ImageField(upload_to = 'static/storage/img/categories')
+	img = models.ImageField(upload_to = settings.BASE_DIR + '/static/storage/img/categories')
 	sign = models.CharField(max_length = 30, default = 'exclamation')
 
 	def __str__(self):
