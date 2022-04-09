@@ -27,6 +27,9 @@
 				<a href="{% url 'main:index' %}">3dFixed</a>
 			</div>
 			<div class="menu-item text-right" id="right-menu">
+				{% if user.is_superuser %}
+				<a href="{% url 'admin:index' %}" class="menu-btn"><span class="fad fa-cog"></span></a>
+				{% endif %}
 				{% if user.is_authenticated %}
 				<a href="{% url 'main:dashboard' %}" class="menu-btn">Dashboard <span class="fad fa-clipboard-list"></span></a>
 				<a href="{% url 'user:profile' %}" class="menu-btn"><span class="fad fa-user-circle"></span></a>
